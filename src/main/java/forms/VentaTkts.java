@@ -7,6 +7,7 @@ package forms;
 
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import modelo.Variables;
 
 /**
  *
@@ -60,6 +61,23 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         setClosable(true);
         setTitle("Venta de tiquetes");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lucky48.png"))); // NOI18N
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
@@ -255,6 +273,11 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         }
         
     }//GEN-LAST:event_formKeyPressed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        // TODO add your handling code here:
+        Variables.frmVtaTkts = null;
+    }//GEN-LAST:event_formInternalFrameClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

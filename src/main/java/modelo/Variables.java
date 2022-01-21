@@ -1,6 +1,7 @@
 package modelo;
 
 import forms.Login;
+import forms.VentaTkts;
 
 public class Variables {
 
@@ -22,5 +23,7 @@ public class Variables {
     // Variable para validacion de largos de campos JTextField
     // Control singleton de apertura de ventanas
     public static Login frmLogin = null;
-
+    public static VentaTkts frmVtaTkts = null;
+    
+    
 }
