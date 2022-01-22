@@ -46,6 +46,7 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         btnAnular = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
         btnNuevoTkt = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         panelCentral = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -62,6 +63,8 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         setTitle("Venta de tiquetes");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lucky48.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
@@ -74,8 +77,6 @@ public class VentaTkts extends javax.swing.JInternalFrame {
             public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
         });
         addKeyListener(new java.awt.event.KeyAdapter() {
@@ -157,6 +158,8 @@ public class VentaTkts extends javax.swing.JInternalFrame {
 
         btnNuevoTkt.setText("Nuevo");
 
+        btnCancelar.setText("Cancelar");
+
         javax.swing.GroupLayout panelSuperiorLayout = new javax.swing.GroupLayout(panelSuperior);
         panelSuperior.setLayout(panelSuperiorLayout);
         panelSuperiorLayout.setHorizontalGroup(
@@ -166,15 +169,17 @@ public class VentaTkts extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNuevoTkt)
-                .addGap(18, 18, 18)
+                .addGap(50, 50, 50)
                 .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAnular)
-                .addGap(22, 22, 22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCancelar)
+                .addGap(18, 18, 18)
                 .addComponent(btnEnviar)
-                .addGap(22, 22, 22))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         panelSuperiorLayout.setVerticalGroup(
             panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,7 +191,8 @@ public class VentaTkts extends javax.swing.JInternalFrame {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAnular)
                     .addComponent(btnImprimir)
-                    .addComponent(btnNuevoTkt))
+                    .addComponent(btnNuevoTkt)
+                    .addComponent(btnCancelar))
                 .addContainerGap())
         );
 
@@ -282,6 +288,7 @@ public class VentaTkts extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnular;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnEnviar;
     private javax.swing.JButton btnImprimir;

@@ -5,8 +5,14 @@
  */
 package forms;
 
+import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Variables;
+import static modelo.Variables.frmLogin;
+import static modelo.Variables.frmVtaTkts;
 
 /**
  *
@@ -20,19 +26,18 @@ public class Inicio extends javax.swing.JFrame {
         initComponents();
         configuraUI();
 
-       if (Variables.mIDUSU == null) {
+        if (Variables.mIDUSU == null) {
             frmLogin = new Login(this);
             frmLogin.setLocationRelativeTo(null);
             frmLogin.setVisible(true);
         }
 
-        this.barraInferior.setText("Usuario:");
-
+        //this.barraInferior.setText("Usuario:");
     }
 
     private void configuraUI() {
-        
-        setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/lucky48.png")));
+
+        setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/lucky48.jpg")));
         setVisible(true);
         setExtendedState(MAXIMIZED_BOTH);
     }
@@ -84,6 +89,10 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
+        barraInferior.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        barraInferior.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        barraInferior.setText("DERECHOS RESERVADOS -- SECCAB SOFTWARE");
+
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
         panelPrincipalLayout.setHorizontalGroup(
@@ -93,7 +102,7 @@ public class Inicio extends javax.swing.JFrame {
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
-                .addGap(0, 351, Short.MAX_VALUE)
+                .addGap(0, 262, Short.MAX_VALUE)
                 .addComponent(barraInferior))
         );
 
@@ -148,6 +157,11 @@ public class Inicio extends javax.swing.JFrame {
         mVentas.setText("Modulo Ventas");
 
         mVenta_tkts.setText("Venta Tiquetes");
+        mVenta_tkts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mVenta_tktsActionPerformed(evt);
+            }
+        });
         mVentas.add(mVenta_tkts);
 
         mVentas_tktsEmitidos.setText("Tiquetes Emitidos");
@@ -165,8 +179,18 @@ public class Inicio extends javax.swing.JFrame {
         MenuPrincipal.add(mVentas);
 
         mSistema.setText("Sistema");
+        mSistema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mSistemaActionPerformed(evt);
+            }
+        });
 
         mSis_cambioUsu.setText("Cambio Usuario");
+        mSis_cambioUsu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mSis_cambioUsuActionPerformed(evt);
+            }
+        });
         mSistema.add(mSis_cambioUsu);
 
         mSis_cambioPin.setText("Cambio Pin");
@@ -181,16 +205,44 @@ public class Inicio extends javax.swing.JFrame {
 
     private void panelPrincipalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_panelPrincipalKeyPressed
         // TODO add your handling code here:
-        
-       
+
+
     }//GEN-LAST:event_panelPrincipalKeyPressed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         // TODO add your handling code here:
-        
-       
-        
+
+
     }//GEN-LAST:event_formKeyPressed
+
+    private void mSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSistemaActionPerformed
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_mSistemaActionPerformed
+
+    private void mSis_cambioUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSis_cambioUsuActionPerformed
+        // TODO add your handling code here:
+        frmLogin = new Login(this);
+        frmLogin.setLocationRelativeTo(null);
+        frmLogin.setVisible(true);
+    }//GEN-LAST:event_mSis_cambioUsuActionPerformed
+
+    private void mVenta_tktsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVenta_tktsActionPerformed
+        // TODO add your handling code here:
+        
+        if (frmVtaTkts == null) {
+            frmVtaTkts = new VentaTkts();
+            Dimension ds = this.panelEscritorio.getSize();
+            Dimension fs = frmVtaTkts.getSize();
+            frmVtaTkts.setLocation((ds.width - fs.width) / 2, (ds.height - fs.height) / 2);
+            this.panelEscritorio.add(frmVtaTkts);
+            frmVtaTkts.show();
+        } else {
+            frmVtaTkts.toFront();
+            frmVtaTkts.restoreSubcomponentFocus();
+        }
+    }//GEN-LAST:event_mVenta_tktsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

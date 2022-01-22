@@ -4,6 +4,7 @@ import interfaces.UsuarioDAO;
 import java.awt.Cursor;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -19,10 +20,13 @@ public class Login extends javax.swing.JDialog {
     Propiedades prop;
     UsuarioVO usr;
     UsuarioDAO usuarioDAO;
+    Inicio principal;
 
     public Login(JFrame padre) {
 
         initComponents();
+
+        principal = (Inicio) padre;
 
         prop = new Propiedades();
         usuarioDAO = new UsuarioDAOImpl();
@@ -144,6 +148,9 @@ public class Login extends javax.swing.JDialog {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtIdUsuKeyPressed(evt);
             }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtIdUsuKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtIdUsuKeyTyped(evt);
             }
@@ -257,6 +264,15 @@ public class Login extends javax.swing.JDialog {
                     setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                     return;
                 }
+                String pin = new String(txtPassUsu.getPassword());
+                
+                if(usr.getPin_pass()!= Integer.valueOf(pin)){
+                    JOptionPane.showMessageDialog(this, "PIN invalido");
+                    this.txtPassUsu.requestFocus();
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    return;                    
+                }
+                
 
                 Variables.mCODUSU = usr.getCod_usuario();
                 Variables.mNOMUSU = usr.getNom_usuario();
@@ -265,16 +281,16 @@ public class Login extends javax.swing.JDialog {
                 Variables.mAGEUSU = usr.getCod_suc();
                 Variables.mNOMAGEUSU = usr.getNom_suc();
 
-                //String titulo = "Facturación y Control PDVs ---- Usuario: " + Variables.mNOMUSU;
-                //setTitle(titulo);
+                principal.setTitle("Lotto Banca CR -- Usuario: " + Variables.mNOMUSU);
+
                 // Actualiza el usuario en el archivo properties
                 prop.updateUsuario(txtIdUsu.getText());
 
                 this.dispose();
 
             } else {
-                JOptionPane.showMessageDialog(this, "Usuario o Password Incorrectos");
-                txtIdUsu.requestFocus();               
+                JOptionPane.showMessageDialog(this, "Usuario NO Existe");
+                txtIdUsu.requestFocus();
             }
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
@@ -329,6 +345,11 @@ public class Login extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtIdUsuKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdUsuKeyReleased
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtIdUsuKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

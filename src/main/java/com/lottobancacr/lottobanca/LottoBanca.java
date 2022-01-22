@@ -7,10 +7,7 @@ package com.lottobancacr.lottobanca;
 
 import forms.Splash;
 import forms.Inicio;
-import static java.awt.Frame.MAXIMIZED_BOTH;
-import java.awt.Toolkit;
 import java.io.IOException;
-import static java.lang.Thread.sleep;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;

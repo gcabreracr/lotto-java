@@ -19,6 +19,8 @@ public class UsuarioVO {
     private int tipo_usuario;
     private int pin_pass;
     private int est_usuario;
+    private String tit_tkt;
+    private String msg_tkt;
 
     public UsuarioVO() {
     }
@@ -86,6 +88,22 @@ public class UsuarioVO {
 
     public void setEst_usuario(int est_usuario) {
         this.est_usuario = est_usuario;
+    }
+
+    public String getTit_tkt() {
+        return tit_tkt;
+    }
+
+    public void setTit_tkt(String tit_tkt) {
+        this.tit_tkt = tit_tkt;
+    }
+
+    public String getMsg_tkt() {
+        return msg_tkt;
+    }
+
+    public void setMsg_tkt(String msg_tkt) {
+        this.msg_tkt = msg_tkt;
     }
     
     
