@@ -146,7 +146,7 @@ public class VentaTkts extends javax.swing.JInternalFrame {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.EAST);
 
-        panelSuperior.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelSuperior.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
         btnEnviar.setText("Enviar");
 
@@ -263,7 +263,7 @@ public class VentaTkts extends javax.swing.JInternalFrame {
                     .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2)
                     .addComponent(btnEliminar))
-                .addContainerGap(310, Short.MAX_VALUE))
+                .addContainerGap(312, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelCentral, java.awt.BorderLayout.CENTER);
