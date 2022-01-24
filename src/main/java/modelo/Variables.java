@@ -1,5 +1,6 @@
 package modelo;
 
+import forms.ConfiguraTkt;
 import forms.ConsultaEstado;
 import forms.ConsultaPremios;
 import forms.LiqDiaria;
@@ -34,5 +35,7 @@ public class Variables {
     public static TktsEmitidos frmTktsEmi = null;
     public static ConsultaEstado frmConEstado = null;
     public static ConsultaPremios frmConPremios = null;
-
+    public static ConfiguraTkt frmConTkt = null;
+    
+    
 }

@@ -10,8 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import metodos.PoolConexion;
 import modelo.PO.UsuarioVO;
 
@@ -53,6 +51,15 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             } 
         }
 
+    }
+
+    @Override
+    public void actualizaTit_Msg(UsuarioVO usr) throws SQLException {
+        
+        
+        
+        
+        
     }
 
 }

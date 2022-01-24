@@ -7,14 +7,11 @@ package forms;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import modelo.Variables;
 import static modelo.Variables.frmConEstado;
 import static modelo.Variables.frmConPremios;
+import static modelo.Variables.frmConTkt;
 import static modelo.Variables.frmLiqDia;
-import static modelo.Variables.frmLogin;
 import static modelo.Variables.frmTktsEmi;
 import static modelo.Variables.frmVtaTkts;
 
@@ -221,7 +218,12 @@ public class Inicio extends javax.swing.JFrame {
         mSis_cambioPin.setText("Cambio Pin");
         mSistema.add(mSis_cambioPin);
 
-        mSis_config.setText("Configuración");
+        mSis_config.setText("Configura Tiquete");
+        mSis_config.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mSis_configActionPerformed(evt);
+            }
+        });
         mSistema.add(mSis_config);
 
         MenuPrincipal.add(mSistema);
@@ -291,7 +293,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void mVentas_liqDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVentas_liqDiaActionPerformed
         // TODO add your handling code here:
-         if (frmLiqDia == null) {
+        if (frmLiqDia == null) {
             frmLiqDia = new LiqDiaria();
             Dimension ds = this.panelEscritorio.getSize();
             Dimension fs = frmLiqDia.getSize();
@@ -318,12 +320,12 @@ public class Inicio extends javax.swing.JFrame {
             frmConPremios.toFront();
             frmConPremios.restoreSubcomponentFocus();
         }
-        
+
     }//GEN-LAST:event_mVentas_tktsPremiadosActionPerformed
 
     private void mVentas_EstadoCtaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVentas_EstadoCtaActionPerformed
         // TODO add your handling code here:
-         if (frmConEstado == null) {
+        if (frmConEstado == null) {
             frmConEstado = new ConsultaEstado();
             Dimension ds = this.panelEscritorio.getSize();
             Dimension fs = frmConEstado.getSize();
@@ -334,8 +336,24 @@ public class Inicio extends javax.swing.JFrame {
             frmConEstado.toFront();
             frmConEstado.restoreSubcomponentFocus();
         }
-        
+
     }//GEN-LAST:event_mVentas_EstadoCtaActionPerformed
+
+    private void mSis_configActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSis_configActionPerformed
+        // TODO add your handling code here:
+
+        if (frmConTkt == null) {
+            frmConTkt = new ConfiguraTkt();
+            Dimension ds = this.panelEscritorio.getSize();
+            Dimension fs = frmConTkt.getSize();
+            frmConTkt.setLocation((ds.width - fs.width) / 2, (ds.height - fs.height) / 2);
+            this.panelEscritorio.add(frmConTkt);
+            frmConTkt.show();
+        } else {
+            frmConTkt.toFront();
+            frmConTkt.restoreSubcomponentFocus();
+        }
+    }//GEN-LAST:event_mSis_configActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -178,8 +178,11 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mSis_config">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Configuraci&#xf3;n"/>
+                <Property name="text" type="java.lang.String" value="Configura Tiquete"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mSis_configActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

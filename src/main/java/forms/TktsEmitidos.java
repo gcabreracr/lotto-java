@@ -78,13 +78,15 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
         cbSorteos = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         txtFechaSorteo = new com.toedter.calendar.JDateChooser();
-        btnImprimir = new javax.swing.JButton();
-        btnAnular = new javax.swing.JButton();
+        btnConsultar = new javax.swing.JButton();
         panelCentral = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtTiquetes = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         lbVentaTotal = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        btnImprimir = new javax.swing.JButton();
+        btnAnular = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Tiquetes emitidos");
@@ -119,30 +121,31 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Fecha");
 
-        btnImprimir.setText("Imprimir");
-
-        btnAnular.setText("Anular");
+        btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelSuperiorLayout = new javax.swing.GroupLayout(panelSuperior);
         panelSuperior.setLayout(panelSuperiorLayout);
         panelSuperiorLayout.setHorizontalGroup(
             panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSuperiorLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addGroup(panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelSuperiorLayout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFechaSorteo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelSuperiorLayout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbSorteos, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
-                .addGroup(panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAnular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(32, 32, 32))
+                        .addComponent(cbSorteos, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelSuperiorLayout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtFechaSorteo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(28, 28, 28)
+                .addComponent(btnConsultar)
+                .addGap(127, 127, 127))
         );
         panelSuperiorLayout.setVerticalGroup(
             panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,14 +153,12 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtFechaSorteo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(btnImprimir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(cbSorteos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnAnular))
+                    .addComponent(jLabel1))
+                .addGap(9, 9, 9)
+                .addGroup(panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(cbSorteos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsultar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -189,6 +190,33 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
         lbVentaTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbVentaTotal.setText("0");
 
+        btnImprimir.setText("Imprimir");
+
+        btnAnular.setText("Anular");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnAnular, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnImprimir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAnular)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout panelCentralLayout = new javax.swing.GroupLayout(panelCentral);
         panelCentral.setLayout(panelCentralLayout);
         panelCentralLayout.setHorizontalGroup(
@@ -196,24 +224,26 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
             .addGroup(panelCentralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
-                    .addGroup(panelCentralLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCentralLayout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbVentaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)))
-                .addContainerGap())
+                        .addGap(18, 18, 18)
+                        .addComponent(lbVentaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelCentralLayout.setVerticalGroup(
             panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCentralLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(lbVentaTotal))
+                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbVentaTotal)
+                    .addComponent(jLabel3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -228,7 +258,7 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
         if (cbSorteos.getSelectedIndex() > 0) {
             codSorteo = listaSorteosUsu.get(cbSorteos.getSelectedIndex()).getCod_sorteo();
 
-            consultaTkts();
+            btnConsultar.requestFocus();
         }
 
 
@@ -239,14 +269,27 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
         Variables.frmTktsEmi = null;
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        // TODO add your handling code here:
+        if (cbSorteos.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Selecione un Sorteo");
+            cbSorteos.requestFocus();
+            return;
+        }
+
+        consultaTkts();
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnular;
+    private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JComboBox<String> cbSorteos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtTiquetes;
     private javax.swing.JLabel lbVentaTotal;
@@ -276,8 +319,8 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
             jtTiquetes.getColumnModel().getColumn(1).setHeaderRenderer(centerDTCR);
             jtTiquetes.getColumnModel().getColumn(2).setResizable(false);
             jtTiquetes.getColumnModel().getColumn(2).setPreferredWidth(100);
-            jtTiquetes.getColumnModel().getColumn(2).setCellRenderer(rightDTCR);
-            jtTiquetes.getColumnModel().getColumn(2).setHeaderRenderer(centerDTCR);
+            //jtTiquetes.getColumnModel().getColumn(2).setCellRenderer(rightDTCR);
+            //jtTiquetes.getColumnModel().getColumn(2).setHeaderRenderer(centerDTCR);
         }
 
     }
@@ -311,25 +354,30 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
         try {
-            respuesta = HttpClient.httpPOST(url, jsonSend).getJSONObject("resp");
+            respuesta = HttpClient.httpPOST(url, jsonSend).optJSONObject("resp");
             if (respuesta != null) {
                 JSONArray arrayTkts = respuesta.optJSONArray("tkts");
                 for (int i = 0; i < arrayTkts.length(); i++) {
                     VentaDiariaTktVO tkt = new VentaDiariaTktVO();
                     tkt.setNum_tkt(arrayTkts.optJSONObject(i).optInt("num_tkt"));
-                    tkt.setMon_tkt(arrayTkts.optJSONObject(i).optInt("total_tkt"));
+                    int montoTkt = arrayTkts.optJSONObject(i).optInt("total_tkt");
+                    tkt.setMon_tkt(montoTkt);
                     tkt.setReferencia(arrayTkts.optJSONObject(i).optString("nom_cliente"));
+                    mVentaTotal += montoTkt;
                     listaDiariaTkts.add(tkt);
                 }
+
             } else {
-                JOptionPane.showMessageDialog(null, "No hay registros");
+                JOptionPane.showMessageDialog(null, "No hay tiquetes registrados");
             }
 
-            modeloTabla.llenaLista(listaDiariaTkts);
-            
         } catch (IOException ex) {
-            Logger.getLogger(TktsEmitidos.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No hay tiquetes registrados");
+            //Logger.getLogger(TktsEmitidos.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        lbVentaTotal.setText(fMonto.format(mVentaTotal));
+        modeloTabla.llenaLista(listaDiariaTkts);
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
     }

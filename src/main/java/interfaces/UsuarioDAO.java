@@ -13,7 +13,8 @@ import modelo.PO.UsuarioVO;
  * @author Gonzalo Cabrera
  */
 public interface UsuarioDAO {
-    
+
     public boolean Login(UsuarioVO usr) throws SQLException;
-    
+
+    public void actualizaTit_Msg(UsuarioVO usr) throws SQLException;
 }

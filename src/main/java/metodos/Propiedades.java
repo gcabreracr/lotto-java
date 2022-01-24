@@ -5,6 +5,7 @@
  */
 package metodos;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,12 +17,13 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Variables;
+import org.json.JSONObject;
 
 /**
  *
  * @author Usuario
  */
-public class Propiedades extends Properties{
+public class Propiedades extends Properties {
 
     File archivo;
     //Properties prop;
@@ -75,4 +77,6 @@ public class Propiedades extends Properties{
             Logger.getLogger(Propiedades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+   
 }

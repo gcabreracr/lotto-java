@@ -34,7 +34,8 @@ public class Login extends javax.swing.JDialog {
         try {
             txtIdUsu.setText(prop.leerUsuario());
         } catch (IOException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            txtIdUsu.setText("");
+            //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (!txtIdUsu.getText().isEmpty()) {
@@ -280,6 +281,8 @@ public class Login extends javax.swing.JDialog {
                 Variables.mTIPOUSU = usr.getTipo_usuario();
                 Variables.mAGEUSU = usr.getCod_suc();
                 Variables.mNOMAGEUSU = usr.getNom_suc();
+                Variables.TIT_TKT = usr.getTit_tkt();
+                Variables.MSG_TKT = usr.getMsg_tkt();
 
                 principal.setTitle("Lotto Banca CR -- Usuario: " + Variables.mNOMUSU);
                 
