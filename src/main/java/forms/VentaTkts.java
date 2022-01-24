@@ -5,9 +5,39 @@
  */
 package forms;
 
-import java.awt.event.KeyEvent;
+import interfaces.SorteoDAO;
+import java.awt.Cursor;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import metodos.HttpClient;
+import modelo.DAO.SorteoDAOImpl;
+import modelo.PO.SorteoUsuVO;
+import modelo.PO.VentaTktVO;
 import modelo.Variables;
+import modelo.tableModel.VentaTktTM;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -15,14 +45,65 @@ import modelo.Variables;
  */
 public class VentaTkts extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form NewJInternalFrame
-     */
+    VentaTktTM modeloTabla;
+    SorteoDAO sorteoDAO;
+
+    Vector<SorteoUsuVO> listaSorteosUsu;
+    ArrayList<VentaTktVO> listaVentaAcumula;
+    ArrayList<VentaTktVO> listaVentaTkt;
+
+    DecimalFormat fMonto = new DecimalFormat("###,###,###");
+    DecimalFormat fNumero = new DecimalFormat("00");
+    SimpleDateFormat fHora = new SimpleDateFormat("hh:mm:ss");
+    DecimalFormat fTkt = new DecimalFormat("0000000000");
+
+    SimpleDateFormat formatoDMY = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat formatoYMD = new SimpleDateFormat("yyyy-MM-dd");
+
+    boolean nuevoTkt = true;
+    boolean modificaNum = false;
+    boolean reimprime = false;
+    int mVentaTotal = 0;
+    int codSorteo = 0;
+    int filaSel = 0;
+    int aMonto = 0;
+    int mNumTkt = 0;
+    String mFechaTkt, mHoraTkt;
+
     public VentaTkts() {
         initComponents();
-        
-        
-        
+        sorteoDAO = new SorteoDAOImpl();
+        listaSorteosUsu = new Vector();
+        listaVentaTkt = new ArrayList();
+        listaVentaAcumula = new ArrayList<>();
+        crearTabla();
+        llenarListaSorteos();
+        inactivaCampos();
+        limpiaCampos();
+        cbSorteos.requestFocus();
+
+    }
+
+    private void crearTabla() {
+        modeloTabla = new VentaTktTM();
+        jtNumVendidos.setModel(modeloTabla);
+
+        //Configura columnas 
+        DefaultTableCellRenderer rightDTCR = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer centerDTCR = new DefaultTableCellRenderer();
+        rightDTCR.setHorizontalAlignment(SwingConstants.RIGHT);
+        centerDTCR.setHorizontalAlignment(SwingConstants.CENTER);
+        if (jtNumVendidos.getColumnModel().getColumnCount() > 0) {
+            jtNumVendidos.getColumnModel().getColumn(0).setResizable(false);
+            jtNumVendidos.getColumnModel().getColumn(0).setPreferredWidth(15);
+            jtNumVendidos.getColumnModel().getColumn(0).setCellRenderer(centerDTCR);
+            jtNumVendidos.getColumnModel().getColumn(0).setHeaderRenderer(centerDTCR);
+            jtNumVendidos.getColumnModel().getColumn(1).setResizable(false);
+            jtNumVendidos.getColumnModel().getColumn(1).setPreferredWidth(50);
+            jtNumVendidos.getColumnModel().getColumn(1).setCellRenderer(rightDTCR);
+            jtNumVendidos.getColumnModel().getColumn(1).setHeaderRenderer(centerDTCR);
+        }
+
     }
 
     /**
@@ -34,30 +115,32 @@ public class VentaTkts extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelCentral = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        txtFechaTkt = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        cbSorteos = new javax.swing.JComboBox<>();
+        txtReferencia = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtMonApuesta = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtNumero = new javax.swing.JTextField();
+        btnGT = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        btnEliminar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        panelTabla = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtNumVendidos = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         lbVentaTotal = new javax.swing.JLabel();
-        panelSuperior = new javax.swing.JPanel();
+        panelBotones = new javax.swing.JPanel();
         btnEnviar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        btnAnular = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
-        btnNuevoTkt = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        panelCentral = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        txtMonApuesta = new javax.swing.JTextField();
-        txtNumero = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
+        btnNuevoTkt = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Venta de tiquetes");
@@ -85,32 +168,192 @@ public class VentaTkts extends javax.swing.JInternalFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Numeros vendidos"));
+        panelCentral.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Numero", "Monto"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
+        jLabel3.setText("Fecha venta");
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        jLabel4.setText("Sorteo");
+
+        jLabel7.setText("Referencia");
+
+        cbSorteos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un sorteo" }));
+        cbSorteos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSorteosActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-        }
+
+        txtReferencia.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtReferenciaFocusGained(evt);
+            }
+        });
+        txtReferencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtReferenciaActionPerformed(evt);
+            }
+        });
+        txtReferencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtReferenciaKeyTyped(evt);
+            }
+        });
+
+        jLabel5.setText("Monto Apuesta");
+
+        txtMonApuesta.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtMonApuesta.setText("0");
+        txtMonApuesta.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtMonApuestaFocusGained(evt);
+            }
+        });
+        txtMonApuesta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMonApuestaActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Número");
+
+        txtNumero.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtNumeroFocusGained(evt);
+            }
+        });
+        txtNumero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNumeroActionPerformed(evt);
+            }
+        });
+        txtNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNumeroKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumeroKeyTyped(evt);
+            }
+        });
+
+        btnGT.setText("GT");
+        btnGT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGTActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnModificar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEliminar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtFechaTkt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbSorteos, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtMonApuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(171, 171, 171))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnGT)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtFechaTkt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cbSorteos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtMonApuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGT)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panelTabla.setBorder(javax.swing.BorderFactory.createTitledBorder("Numeros vendidos"));
+
+        jtNumVendidos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jtNumVendidos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jtNumVendidosMousePressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtNumVendidos);
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel2.setText("Venta Total");
@@ -119,103 +362,30 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         lbVentaTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbVentaTotal.setText("0");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelTablaLayout = new javax.swing.GroupLayout(panelTabla);
+        panelTabla.setLayout(panelTablaLayout);
+        panelTablaLayout.setHorizontalGroup(
+            panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTablaLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(panelTablaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbVentaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        panelTablaLayout.setVerticalGroup(
+            panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTablaLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lbVentaTotal)))
         );
-
-        getContentPane().add(jPanel1, java.awt.BorderLayout.EAST);
-
-        panelSuperior.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
-
-        btnEnviar.setText("Enviar");
-
-        jLabel1.setText("Numero tiquete");
-
-        btnAnular.setText("Anular");
-
-        btnImprimir.setText("Imprimir");
-
-        btnNuevoTkt.setText("Nuevo");
-
-        btnCancelar.setText("Cancelar");
-
-        javax.swing.GroupLayout panelSuperiorLayout = new javax.swing.GroupLayout(panelSuperior);
-        panelSuperior.setLayout(panelSuperiorLayout);
-        panelSuperiorLayout.setHorizontalGroup(
-            panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSuperiorLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNuevoTkt)
-                .addGap(50, 50, 50)
-                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAnular)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCancelar)
-                .addGap(18, 18, 18)
-                .addComponent(btnEnviar)
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
-        panelSuperiorLayout.setVerticalGroup(
-            panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSuperiorLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addGroup(panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEnviar)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAnular)
-                    .addComponent(btnImprimir)
-                    .addComponent(btnNuevoTkt)
-                    .addComponent(btnCancelar))
-                .addContainerGap())
-        );
-
-        getContentPane().add(panelSuperior, java.awt.BorderLayout.PAGE_START);
-
-        panelCentral.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel3.setText("Fecha venta");
-
-        jLabel4.setText("Sorteo");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un sorteo" }));
-
-        jLabel5.setText("Monto Apuesta");
-
-        jLabel6.setText("Número");
-
-        txtMonApuesta.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtMonApuesta.setText("0");
-
-        jButton2.setText("GT");
-
-        btnEliminar.setText("Eliminar");
 
         javax.swing.GroupLayout panelCentralLayout = new javax.swing.GroupLayout(panelCentral);
         panelCentral.setLayout(panelCentralLayout);
@@ -223,61 +393,96 @@ public class VentaTkts extends javax.swing.JInternalFrame {
             panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCentralLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelCentralLayout.createSequentialGroup()
-                        .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEliminar))
-                    .addComponent(txtMonApuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addComponent(panelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelCentralLayout.setVerticalGroup(
             panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCentralLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtMonApuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
-                    .addComponent(btnEliminar))
-                .addContainerGap(312, Short.MAX_VALUE))
+                    .addGroup(panelCentralLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(panelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelCentralLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelCentral, java.awt.BorderLayout.CENTER);
+
+        panelBotones.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+
+        btnEnviar.setText("Enviar");
+        btnEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarActionPerformed(evt);
+            }
+        });
+
+        btnImprimir.setText("Imprimir");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnNuevoTkt.setText("Nuevo");
+        btnNuevoTkt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoTktActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelBotonesLayout = new javax.swing.GroupLayout(panelBotones);
+        panelBotones.setLayout(panelBotonesLayout);
+        panelBotonesLayout.setHorizontalGroup(
+            panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBotonesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelBotonesLayout.createSequentialGroup()
+                        .addComponent(btnNuevoTkt, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelBotonesLayout.createSequentialGroup()
+                        .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(14, Short.MAX_VALUE))))
+        );
+        panelBotonesLayout.setVerticalGroup(
+            panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(btnEnviar)
+                .addGap(18, 18, 18)
+                .addComponent(btnCancelar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnImprimir)
+                .addGap(18, 18, 18)
+                .addComponent(btnNuevoTkt)
+                .addContainerGap(304, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(panelBotones, java.awt.BorderLayout.EAST);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        // TODO add your handling code here:
-        
-        if(evt.getKeyCode()==KeyEvent.VK_ESCAPE){
-            JOptionPane.showMessageDialog(this, "Pulso la tecla ESC");
-        }
-        
+
+
     }//GEN-LAST:event_formKeyPressed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
@@ -285,31 +490,609 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         Variables.frmVtaTkts = null;
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        limpiaCampos();
+        inactivaCampos();
+        cbSorteos.requestFocus();
+
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtMonApuestaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMonApuestaFocusGained
+        // TODO add your handling code here:
+        txtMonApuesta.selectAll();
+    }//GEN-LAST:event_txtMonApuestaFocusGained
+
+    private void txtMonApuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMonApuestaActionPerformed
+        // TODO add your handling code here:
+        if (txtMonApuesta.getText().length() > 0) {
+            int monto = Integer.valueOf(txtMonApuesta.getText().replace(",", ""));
+            txtMonApuesta.setText(fMonto.format(monto));
+            if (modificaNum) {
+                btnModificar.requestFocus();
+            } else {
+                txtNumero.requestFocus();
+            }
+        }
+
+    }//GEN-LAST:event_txtMonApuestaActionPerformed
+
+    private void cbSorteosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSorteosActionPerformed
+        // TODO add your handling code here:
+
+        if (cbSorteos.getSelectedIndex() > 0) {
+            codSorteo = listaSorteosUsu.get(cbSorteos.getSelectedIndex()).getCod_sorteo();
+            consultaEstadoSorteo();
+        } else {
+            inactivaCampos();
+        }
+
+    }//GEN-LAST:event_cbSorteosActionPerformed
+
+    private void txtReferenciaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtReferenciaFocusGained
+        // TODO add your handling code here:
+        txtReferencia.selectAll();
+    }//GEN-LAST:event_txtReferenciaFocusGained
+
+    private void txtReferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtReferenciaActionPerformed
+        // TODO add your handling code here:
+        txtMonApuesta.requestFocus();
+    }//GEN-LAST:event_txtReferenciaActionPerformed
+
+    private void txtNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroActionPerformed
+        // TODO add your handling code here:
+
+        if (txtNumero.getText().length() > 0) {
+            int num = Integer.valueOf(txtNumero.getText());
+            txtNumero.setText(fNumero.format(num));
+            agregaNumero();
+        }
+
+
+    }//GEN-LAST:event_txtNumeroActionPerformed
+
+    private void txtNumeroFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNumeroFocusGained
+        // TODO add your handling code here:
+        txtNumero.selectAll();
+    }//GEN-LAST:event_txtNumeroFocusGained
+
+    private void txtReferenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtReferenciaKeyTyped
+        // TODO add your handling code here:
+        if (txtReferencia.getText().length() > 40) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtReferenciaKeyTyped
+
+    private void txtNumeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroKeyTyped
+
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+
+
+    }//GEN-LAST:event_txtNumeroKeyTyped
+
+    private void txtNumeroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroKeyReleased
+
+        if (txtNumero.getText().length() > 1) {
+            agregaNumero();
+        }
+
+    }//GEN-LAST:event_txtNumeroKeyReleased
+
+    private void btnGTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGTActionPerformed
+        // TODO add your handling code here:
+
+        calculaGT();
+        txtNumero.requestFocus();
+    }//GEN-LAST:event_btnGTActionPerformed
+
+    private void jtNumVendidosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtNumVendidosMousePressed
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            seleccionaFilaTabla();
+        }
+    }//GEN-LAST:event_jtNumVendidosMousePressed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+
+        modificaNumero();
+
+
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+
+        eliminaNumero();
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnNuevoTktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoTktActionPerformed
+        // TODO add your handling code here:
+        btnCancelarActionPerformed(evt);
+    }//GEN-LAST:event_btnNuevoTktActionPerformed
+
+    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+        // TODO add your handling code here:
+        if (cbSorteos.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione un sorteo");
+            cbSorteos.requestFocus();
+            return;
+        }
+
+        if (mVentaTotal == 0) {
+
+            JOptionPane.showMessageDialog(null, "No se permite emitir un tiquete en CERO");
+            return;
+        }
+
+        enviarTkt();
+
+
+    }//GEN-LAST:event_btnEnviarActionPerformed
+
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        // TODO add your handling code here:
+
+        if (mNumTkt > 0) {
+            imprimeTiquete();
+        }
+    }//GEN-LAST:event_btnImprimirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnular;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnEnviar;
+    private javax.swing.JButton btnGT;
     private javax.swing.JButton btnImprimir;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevoTkt;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> cbSorteos;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable jtNumVendidos;
     private javax.swing.JLabel lbVentaTotal;
+    private javax.swing.JPanel panelBotones;
     private javax.swing.JPanel panelCentral;
-    private javax.swing.JPanel panelSuperior;
+    private javax.swing.JPanel panelTabla;
+    private com.toedter.calendar.JDateChooser txtFechaTkt;
     private javax.swing.JTextField txtMonApuesta;
     private javax.swing.JTextField txtNumero;
+    private javax.swing.JTextField txtReferencia;
     // End of variables declaration//GEN-END:variables
+
+    private void inactivaCampos() {
+
+        //btnImprimir.setEnabled(false);
+        //btnEnviar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        //cbSorteos.setEnabled(false);
+        btnGT.setEnabled(false);
+        txtFechaTkt.setEnabled(false);
+        txtReferencia.setEnabled(false);
+        txtMonApuesta.setEnabled(false);
+        txtNumero.setEnabled(false);
+        jtNumVendidos.setEnabled(false);
+
+    }
+
+    private void limpiaCampos() {
+                
+        mVentaTotal=0;
+        codSorteo=0;
+        nuevoTkt=true;
+        btnImprimir.setText("Imprimir");
+        txtFechaTkt.setDate(new Date());
+        txtMonApuesta.setText("");
+        txtNumero.setText("");
+        txtReferencia.setText("");
+        lbVentaTotal.setText("0");
+        cbSorteos.setSelectedIndex(0);
+        modeloTabla.llenaLista(new ArrayList<>());
+
+    }
+
+    private void llenarListaSorteos() {
+
+        try {
+            listaSorteosUsu = sorteoDAO.llenarComboSorteosUsu(Variables.mCODUSU);
+            cbSorteos.setModel(new DefaultComboBoxModel(listaSorteosUsu));
+        } catch (SQLException ex) {
+            Logger.getLogger(VentaTkts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void consultaEstadoSorteo() {
+
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        JSONObject jsonSend = new JSONObject();
+        jsonSend.put("w", "apiLotto");
+        jsonSend.put("r", "consulta_estado_sorteo");
+        jsonSend.put("cod_usuario", Variables.mCODUSU);
+        jsonSend.put("cod_sorteo", codSorteo);
+
+        String url = Variables.URL_API;
+
+        JSONObject respuesta = null;
+
+        try {
+            respuesta = HttpClient.httpPOST(url, jsonSend).getJSONObject("resp");
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+            if (respuesta.optInt("estadoRes") == 0) {
+                JOptionPane.showMessageDialog(null, respuesta.optString("msg"));
+                codSorteo = 0;
+                cbSorteos.setSelectedIndex(0);
+                inactivaCampos();
+                return;
+            }
+
+            JSONArray venta = respuesta.optJSONArray("venta");
+            if (venta.length() > 0) {
+                for (int i = 0; i < venta.length(); i++) {
+                    String numero = venta.optJSONObject(i).optString("num_jugado");
+                    int monto = venta.optJSONObject(i).optInt("num_jugado");
+
+                    for (int j = 0; j < listaVentaAcumula.size(); j++) {
+
+                        if (listaVentaAcumula.get(j).getNumero().equals(numero)) {
+                            int montoVenta = listaVentaAcumula.get(j).getMonto();
+                            montoVenta += monto;
+                            break;
+                        }
+                    }
+                }
+            }
+            txtMonApuesta.setEnabled(true);
+            txtNumero.setEnabled(true);
+            btnGT.setEnabled(true);
+            jtNumVendidos.setEnabled(true);
+            txtReferencia.setEnabled(true);
+            txtReferencia.requestFocus();
+
+        } catch (IOException | JSONException ex) {
+            //Logger.getLogger(VentaTkts.class.getName()).log(Level.SEVERE, null, ex);
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            JOptionPane.showMessageDialog(this, "Error de conexion, revise e intente de nuevo");
+        }
+    }
+
+    public void agregaNumero() {
+
+        if (txtNumero.getText().length() == 0) {
+            return;
+        }
+
+        String num = fNumero.format(Integer.valueOf(txtNumero.getText()));
+        int mon = Integer.parseInt(txtMonApuesta.getText().replace(",", ""));
+
+        //Busca numero en el arrayList
+        boolean nuevoNum = true;
+        for (int i = 0; i < listaVentaTkt.size(); i++) {
+            if (listaVentaTkt.get(i).getNumero().equals(num)) {
+                nuevoNum = false;
+                int nuevoMonto = listaVentaTkt.get(i).getMonto() + mon;
+                listaVentaTkt.get(i).setMonto(nuevoMonto);
+                break;
+            }
+        }
+        if (nuevoNum) {
+            VentaTktVO ventaTktVO = new VentaTktVO();
+            ventaTktVO.setNumero(num);
+            ventaTktVO.setMonto(mon);
+            listaVentaTkt.add(ventaTktVO);
+        }
+
+        calculaMontos();
+
+        modeloTabla.llenaLista(listaVentaTkt);
+
+    }
+
+    private void calculaMontos() {
+
+        //Calcula el total
+        mVentaTotal = 0;
+        for (int i = 0; i < listaVentaTkt.size(); i++) {
+            mVentaTotal += listaVentaTkt.get(i).getMonto();
+        }
+
+        Collections.sort(listaVentaTkt, new Comparator<VentaTktVO>() {
+            @Override
+            public int compare(VentaTktVO o1, VentaTktVO o2) {
+                return new Integer(o1.getNumero()).compareTo(new Integer(o2.getNumero()));
+            }
+        });
+
+        lbVentaTotal.setText(fMonto.format(mVentaTotal));
+        txtNumero.setText("");
+
+    }
+
+    private void calculaGT() {
+
+        boolean recalcular = true;
+        int numero;
+        do {
+
+            numero = (int) Math.floor(Math.random() * 100);
+            recalcular = false;
+
+            for (int i = 0; i < listaVentaTkt.size(); i++) {
+                if (listaVentaTkt.get(i).getNumero().equals(fNumero.format(numero))) {
+                    recalcular = true;
+                    break;
+                }
+            }
+
+        } while (recalcular);
+
+        String num = fNumero.format(numero);
+        int mon = Integer.parseInt(txtMonApuesta.getText().toString().replace(",", ""));
+
+        VentaTktVO ventaTktVO = new VentaTktVO();
+        ventaTktVO.setNumero(num);
+        ventaTktVO.setMonto(mon);
+        listaVentaTkt.add(ventaTktVO);
+
+        calculaMontos();
+
+        modeloTabla.llenaLista(listaVentaTkt);
+
+        txtNumero.setText("");
+        txtNumero.requestFocus();
+
+    }
+
+    private void seleccionaFilaTabla() {
+
+        filaSel = 0;
+        aMonto = 0;
+
+        if (jtNumVendidos.getSelectedColumnCount() > 0) {
+            filaSel = jtNumVendidos.getSelectedRow();
+            aMonto = listaVentaTkt.get(filaSel).getMonto();
+            txtMonApuesta.setText(fMonto.format(aMonto));
+            txtNumero.setText(listaVentaTkt.get(filaSel).getNumero());
+            modificaNum = true;
+
+            if (nuevoTkt) {
+                btnEliminar.setEnabled(true);
+                btnModificar.setEnabled(true);
+            } else {
+                btnEliminar.setEnabled(false);
+                btnModificar.setEnabled(false);
+            }
+
+            txtMonApuesta.requestFocus();
+
+        }
+
+    }
+
+    private void modificaNumero() {
+
+        String num = txtNumero.getText();
+        int monto = Integer.valueOf(txtMonApuesta.getText().replace(",", ""));
+
+        for (int i = 0; i < listaVentaTkt.size(); i++) {
+            if (listaVentaTkt.get(i).getNumero().equals(num)) {
+                listaVentaTkt.get(i).setMonto(monto);
+                break;
+            }
+        }
+
+        calculaMontos();
+        modeloTabla.llenaLista(listaVentaTkt);
+
+        modificaNum = false;
+        btnModificar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        txtMonApuesta.requestFocus();
+
+    }
+
+    private void eliminaNumero() {
+
+        String num = txtNumero.getText();
+
+        for (int i = 0; i < listaVentaTkt.size(); i++) {
+            if (listaVentaTkt.get(i).getNumero().equals(num)) {
+                listaVentaTkt.remove(i);
+                break;
+            }
+        }
+        calculaMontos();
+
+        modeloTabla.llenaLista(listaVentaTkt);
+
+        modificaNum = false;
+        btnModificar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        txtMonApuesta.requestFocus();
+
+    }
+
+    private void enviarTkt() {
+
+        mFechaTkt = formatoDMY.format(txtFechaTkt.getDate());
+        mHoraTkt = fHora.format(new Date());
+
+        JSONArray detalleVenta = new JSONArray();
+        for (int i = 0; i < listaVentaTkt.size(); i++) {
+            JSONObject numVendido = new JSONObject();
+            numVendido.put("num_jugado", listaVentaTkt.get(i).getNumero());
+            numVendido.put("mon_jugado", listaVentaTkt.get(i).getMonto());
+            detalleVenta.put(numVendido);
+
+        }
+        JSONObject jsonSend = new JSONObject();
+        jsonSend.put("w", "apiLotto");
+        jsonSend.put("r", "registra_venta_tkt");
+        jsonSend.put("cod_usuario", Variables.mCODUSU);
+        jsonSend.put("cod_sorteo", codSorteo);
+        jsonSend.put("hora_envio", mHoraTkt);
+        jsonSend.put("cod_suc", Variables.mAGEUSU);
+        jsonSend.put("nom_cliente", txtReferencia.getText());
+        jsonSend.put("numeros", detalleVenta);
+
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+        String url = Variables.URL_API;
+
+        JSONObject respuesta;
+
+        try {
+            respuesta = HttpClient.httpPOST(url, jsonSend).getJSONObject("resp");
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+            if (respuesta.optInt("estadoRes") == 0) {
+                JOptionPane.showMessageDialog(null, respuesta.optString("msg"));
+                return;
+            }
+
+            mNumTkt = respuesta.optInt("num_tkt");
+
+            JOptionPane.showMessageDialog(null, "Tiquete registrado: " + mNumTkt);
+            btnImprimir.requestFocus();
+
+        } catch (IOException ex) {
+            Logger.getLogger(VentaTkts.class.getName()).log(Level.SEVERE, null, ex);
+
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        }
+
+    }
+
+    private void imprimeTiquete() {
+
+        DocFlavor formatoDoc = DocFlavor.BYTE_ARRAY.AUTOSENSE;
+        PrintService[] impresoras = PrintServiceLookup.lookupPrintServices(formatoDoc, null);
+
+        if (impresoras.length > 0) {
+
+            PrintService impresora = (PrintService) JOptionPane.showInputDialog(this, "Elija impresora:", "Imprime tiquete", JOptionPane.QUESTION_MESSAGE, null, impresoras, impresoras[0]);
+            if (impresora != null) {
+
+                DocPrintJob printJob = impresora.createPrintJob();
+                Doc documento = new SimpleDoc(llenaDetalleTkt().getBytes(), formatoDoc, null);
+
+                try {
+                    printJob.print(documento, null);
+                } catch (PrintException ex) {
+                    Logger.getLogger(VentaTkts.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "Error de impresion: " + ex.toString());
+                }
+
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay impresoras definidas");
+        }
+
+    }
+
+    private String llenaDetalleTkt() {
+
+        String sNum, sMon;
+        String mNomSorteo = listaSorteosUsu.get(cbSorteos.getSelectedIndex()).getNom_sorteo();
+        int mFacPremio = listaSorteosUsu.get(cbSorteos.getSelectedIndex()).getFac_premio_usu();
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(new char[]{27, '@'});
+        builder.append(new char[]{27, 'd', 3}); // Avance de 3 lineas
+
+        if (Variables.TIT_TKT != null || Variables.TIT_TKT.length() > 0) {
+            builder.append(new char[]{27, '!', 24}); // doble altura
+            builder.append(new char[]{27, 'a', 1}); // Alineacion centrada
+            builder.append(Variables.TIT_TKT).append("\r\n");
+        }
+
+        builder.append(new char[]{27, '!', 8}); // Negrita, 10cpp
+        builder.append("Tiquete de compra").append("\r\n");
+        builder.append("Numero Tiquete: ").append(fTkt.format(mNumTkt)).append("\n");
+        if (reimprime) {
+            builder.append("*** REIMPRESION ***").append("\r\n");
+        }
+
+        builder.append(new char[]{27, '!', 0}); // 10cpp
+        builder.append(new char[]{27, 'a', 0}); // Alineacion izquierda
+
+        builder.append("\r\n");
+        builder.append("Fecha: ").append(mFechaTkt).append(String.format("%12s", mHoraTkt)).append("\r\n");
+        builder.append("Sorteo: ").append(mNomSorteo).append("\r\n");
+
+        if (txtReferencia.getText().length() > 0) {
+            builder.append("Cliente: ").append(txtReferencia.getText()).append("\r\n");
+        }
+
+        builder.append("Detalle\r\n");
+        builder.append("==============================\r\n");
+
+        int montoGrupo = 0;
+        int numLinea = 1;
+
+        for (int i = 0; i < listaVentaTkt.size(); i++) {
+
+            int mon_jugado = listaVentaTkt.get(i).getMonto();
+            String num_jugado = listaVentaTkt.get(i).getNumero();
+
+            if (mon_jugado != montoGrupo) {
+                if (montoGrupo > 0) {
+                    builder.append("\r\n");
+                }
+                montoGrupo = mon_jugado;
+                numLinea = 1;
+                builder.append(String.format("%9s", fMonto.format(montoGrupo))).append(" x ");
+            } else {
+                if (numLinea == 1) {
+                    //builder.append("####,###").append("   ");
+                    builder.append(String.format("%12s", " "));
+                }
+            }
+            builder.append(num_jugado.trim()).append(", ");
+            numLinea += 1;
+
+            /*if (numLinea < 5) {
+                builder.append(", ");
+            }
+            if (numLinea == 5) {
+                numLinea = 1;
+                builder.append("\r\n");
+            }*/
+        }
+        builder.append("\n");
+        builder.append("==============================\r\n");
+        builder.append("Total Tiquete: ").append(String.format("%10s", fMonto.format(mVentaTotal))).append("\r\n").append("\r\n");
+
+        builder.append(new char[]{27, '!', 8}); // Negrita, 10cpp
+        builder.append(new char[]{27, 'a', 1}); // Alineacion centrada
+        builder.append("PAGAMOS AL  ").append(String.valueOf(mFacPremio)).append("\r\n").append("\r\n");
+
+        if (Variables.MSG_TKT != null || Variables.MSG_TKT.length() > 0) {
+            builder.append(new char[]{27, '!', 0}); // 10cpp
+            builder.append(Variables.MSG_TKT).append("\r\n").append("\r\n");
+        }
+
+        builder.append(new char[]{27, '!', 1}); // 12cpp
+        builder.append("Emitido por: ").append(Variables.mNOMUSU).append("\r\n");
+        builder.append("Generado por LOTTOBANCACR").append("\r\n");
+
+        builder.append(new char[]{27, '!', 0}); // 10 CPP
+        builder.append(new char[]{27, 'd', 5}); // Avance de lineas
+
+        return builder.toString();
+
+    }
+
 }

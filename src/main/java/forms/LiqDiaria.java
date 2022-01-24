@@ -5,17 +5,91 @@
  */
 package forms;
 
+import interfaces.SorteoDAO;
+import java.awt.Cursor;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import metodos.HttpClient;
+import modelo.DAO.SorteoDAOImpl;
+import modelo.PO.SorteoUsuVO;
+import modelo.PO.VentaTktVO;
+import modelo.Variables;
+import modelo.tableModel.VentaTktTM;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /**
  *
- * @author RV_5
+ * @author Gonzalo Cabrera
  */
 public class LiqDiaria extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form LiqDiaria
-     */
+    VentaTktTM modeloTabla;
+    SorteoDAO sorteoDAO;
+
+    Vector<SorteoUsuVO> listaSorteosUsu;
+    ArrayList<VentaTktVO> listaVentaTkt;
+
+    DecimalFormat fMonto = new DecimalFormat("###,###,###");
+    DecimalFormat fNumero = new DecimalFormat("00");
+    DecimalFormat fTkt = new DecimalFormat("0000000000");
+
+    SimpleDateFormat formatoDMY = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat formatoYMD = new SimpleDateFormat("yyyy-MM-dd");
+
+    int codSorteo = 0;
+    String mFecSorteo;
+    int mPremio = 0;
+    int mComision = 0;
+    int mMontoLiq = 0;
+    int mVentaTotal = 0;
+
     public LiqDiaria() {
         initComponents();
+
+        sorteoDAO = new SorteoDAOImpl();
+        listaSorteosUsu = new Vector();
+        listaVentaTkt = new ArrayList();
+
+        txtFechaLiq.setDate(new Date());
+
+        crearTabla();
+        llenarListaSorteos();
+
+        cbSorteos.requestFocus();
+
+    }
+
+    private void crearTabla() {
+        modeloTabla = new VentaTktTM();
+        jtNumVendidos.setModel(modeloTabla);
+
+        //Configura columnas 
+        DefaultTableCellRenderer rightDTCR = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer centerDTCR = new DefaultTableCellRenderer();
+        rightDTCR.setHorizontalAlignment(SwingConstants.RIGHT);
+        centerDTCR.setHorizontalAlignment(SwingConstants.CENTER);
+        if (jtNumVendidos.getColumnModel().getColumnCount() > 0) {
+            jtNumVendidos.getColumnModel().getColumn(0).setResizable(false);
+            jtNumVendidos.getColumnModel().getColumn(0).setPreferredWidth(15);
+            jtNumVendidos.getColumnModel().getColumn(0).setCellRenderer(centerDTCR);
+            jtNumVendidos.getColumnModel().getColumn(0).setHeaderRenderer(centerDTCR);
+            jtNumVendidos.getColumnModel().getColumn(1).setResizable(false);
+            jtNumVendidos.getColumnModel().getColumn(1).setPreferredWidth(50);
+            jtNumVendidos.getColumnModel().getColumn(1).setCellRenderer(rightDTCR);
+            jtNumVendidos.getColumnModel().getColumn(1).setHeaderRenderer(centerDTCR);
+        }
+
     }
 
     /**
@@ -27,24 +101,363 @@ public class LiqDiaria extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelTabla = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtNumVendidos = new javax.swing.JTable();
+        panelCentral = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        txtFechaLiq = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
+        cbSorteos = new javax.swing.JComboBox<>();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lbVentaTotal = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lbMonComision = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        lbMonPremios = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        lbLiqNeta = new javax.swing.JLabel();
+
         setClosable(true);
         setTitle("Liquidacion Diaria");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 623, Short.MAX_VALUE)
+        panelTabla.setBorder(javax.swing.BorderFactory.createTitledBorder("Numeros vendidos"));
+
+        jtNumVendidos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jtNumVendidos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jtNumVendidosMousePressed(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jtNumVendidos);
+
+        javax.swing.GroupLayout panelTablaLayout = new javax.swing.GroupLayout(panelTabla);
+        panelTabla.setLayout(panelTablaLayout);
+        panelTablaLayout.setHorizontalGroup(
+            panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTablaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 382, Short.MAX_VALUE)
+        panelTablaLayout.setVerticalGroup(
+            panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTablaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        getContentPane().add(panelTabla, java.awt.BorderLayout.EAST);
+
+        jLabel3.setText("Fecha liquidación");
+
+        txtFechaLiq.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtFechaLiqMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtFechaLiqMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txtFechaLiqMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtFechaLiqMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                txtFechaLiqMouseReleased(evt);
+            }
+        });
+        txtFechaLiq.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtFechaLiqPropertyChange(evt);
+            }
+        });
+
+        jLabel4.setText("Sorteo");
+
+        cbSorteos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un sorteo" }));
+        cbSorteos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSorteosActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Resumen"));
+
+        jLabel1.setText("Venta total");
+        jLabel1.setPreferredSize(new java.awt.Dimension(60, 20));
+
+        lbVentaTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbVentaTotal.setText("0");
+        lbVentaTotal.setPreferredSize(new java.awt.Dimension(40, 20));
+
+        jLabel5.setText("Comision");
+        jLabel5.setPreferredSize(new java.awt.Dimension(60, 20));
+
+        lbMonComision.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbMonComision.setText("0");
+        lbMonComision.setPreferredSize(new java.awt.Dimension(40, 20));
+
+        jLabel7.setText("Premios");
+        jLabel7.setPreferredSize(new java.awt.Dimension(60, 20));
+
+        lbMonPremios.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbMonPremios.setText("0");
+        lbMonPremios.setPreferredSize(new java.awt.Dimension(40, 20));
+
+        jLabel9.setText("Liquidacion Neta");
+        jLabel9.setPreferredSize(new java.awt.Dimension(60, 20));
+
+        lbLiqNeta.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbLiqNeta.setText("0");
+        lbLiqNeta.setPreferredSize(new java.awt.Dimension(40, 20));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbVentaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lbLiqNeta, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lbMonPremios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbMonComision, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbVentaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbMonComision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbMonPremios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbLiqNeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout panelCentralLayout = new javax.swing.GroupLayout(panelCentral);
+        panelCentral.setLayout(panelCentralLayout);
+        panelCentralLayout.setHorizontalGroup(
+            panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCentralLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtFechaLiq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbSorteos, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCentralLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        panelCentralLayout.setVerticalGroup(
+            panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCentralLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtFechaLiq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbSorteos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(193, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(panelCentral, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cbSorteosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSorteosActionPerformed
+        // TODO add your handling code here:
+
+        if (cbSorteos.getSelectedIndex() > 0) {
+            codSorteo = listaSorteosUsu.get(cbSorteos.getSelectedIndex()).getCod_sorteo();
+
+            consultaLiquidacion();
+        }
+    }//GEN-LAST:event_cbSorteosActionPerformed
+
+    private void jtNumVendidosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtNumVendidosMousePressed
+        // TODO add your handling code here:
+        /* if (evt.getClickCount() == 2) {
+            seleccionaFilaTabla();
+        }*/
+    }//GEN-LAST:event_jtNumVendidosMousePressed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        // TODO add your handling code here:
+        Variables.frmLiqDia = null;
+    }//GEN-LAST:event_formInternalFrameClosing
+
+    private void txtFechaLiqMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFechaLiqMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtFechaLiqMouseClicked
+
+    private void txtFechaLiqMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFechaLiqMousePressed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtFechaLiqMousePressed
+
+    private void txtFechaLiqMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFechaLiqMouseReleased
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtFechaLiqMouseReleased
+
+    private void txtFechaLiqMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFechaLiqMouseEntered
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtFechaLiqMouseEntered
+
+    private void txtFechaLiqMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFechaLiqMouseExited
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtFechaLiqMouseExited
+
+    private void txtFechaLiqPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtFechaLiqPropertyChange
+        // TODO add your handling code here:
+        cbSorteos.requestFocus();
+    }//GEN-LAST:event_txtFechaLiqPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbSorteos;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jtNumVendidos;
+    private javax.swing.JLabel lbLiqNeta;
+    private javax.swing.JLabel lbMonComision;
+    private javax.swing.JLabel lbMonPremios;
+    private javax.swing.JLabel lbVentaTotal;
+    private javax.swing.JPanel panelCentral;
+    private javax.swing.JPanel panelTabla;
+    private com.toedter.calendar.JDateChooser txtFechaLiq;
     // End of variables declaration//GEN-END:variables
+
+    private void llenarListaSorteos() {
+
+        try {
+            listaSorteosUsu = sorteoDAO.llenarComboSorteosUsu(Variables.mCODUSU);
+            cbSorteos.setModel(new DefaultComboBoxModel(listaSorteosUsu));
+        } catch (SQLException ex) {
+            Logger.getLogger(VentaTkts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void consultaLiquidacion() {
+
+        mFecSorteo = formatoYMD.format(txtFechaLiq.getDate());
+
+        listaVentaTkt = new ArrayList<>();
+        JSONObject jsonSend = new JSONObject();
+        jsonSend.put("w", "apiLotto");
+        jsonSend.put("r", "consulta_liq_sorteo_usu");
+        jsonSend.put("fecha_sorteo", mFecSorteo);
+        jsonSend.put("cod_sorteo", codSorteo);
+        jsonSend.put("cod_usuario", Variables.mCODUSU);
+
+        mVentaTotal = 0;
+        mPremio = 0;
+        mComision = 0;
+        mMontoLiq = 0;
+
+        String url = Variables.URL_API;
+
+        JSONObject respuesta = null;
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        try {
+            respuesta = HttpClient.httpPOST(url, jsonSend).getJSONObject("resp");
+            if (respuesta != null) {
+
+                JSONArray liqSorteo = respuesta.optJSONArray("liqSorteo");
+                for (int i = 0; i < liqSorteo.length(); i++) {
+                    VentaTktVO ventaTktVO = new VentaTktVO();
+                    ventaTktVO.setNumero(liqSorteo.optJSONObject(i).optString("num_jugado"));
+                    ventaTktVO.setMonto(liqSorteo.optJSONObject(i).optInt("mon_venta"));
+                    mVentaTotal += liqSorteo.optJSONObject(i).optInt("mon_venta");
+                    mPremio += liqSorteo.optJSONObject(i).optInt("premio");
+                    mComision += liqSorteo.optJSONObject(i).optInt("comision");
+                    listaVentaTkt.add(ventaTktVO);
+                }
+            }
+
+            lbVentaTotal.setText(fMonto.format(mVentaTotal));
+            lbMonComision.setText(fMonto.format(mComision));
+            lbMonPremios.setText(fMonto.format(mPremio));
+            mMontoLiq = mVentaTotal - mComision - mPremio;
+            lbLiqNeta.setText(fMonto.format(mMontoLiq));
+
+            modeloTabla.llenaLista(listaVentaTkt);
+
+        } catch (IOException ex) {
+            Logger.getLogger(LiqDiaria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+    }
+
 }

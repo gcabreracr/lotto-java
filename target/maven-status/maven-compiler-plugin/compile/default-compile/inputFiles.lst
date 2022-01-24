@@ -1,7 +1,9 @@
 D:\MavenProjects\LottoBanca\src\main\java\metodos\ConvertirJsonArray.java
 D:\MavenProjects\LottoBanca\src\main\java\forms\Splash.java
 D:\MavenProjects\LottoBanca\src\main\java\modelo\Constantes.java
+D:\MavenProjects\LottoBanca\src\main\java\modelo\DAO\SorteoDAOImpl.java
 D:\MavenProjects\LottoBanca\src\main\java\forms\Inicio.java
+D:\MavenProjects\LottoBanca\src\main\java\modelo\PO\SorteoVO.java
 D:\MavenProjects\LottoBanca\src\main\java\forms\TiquetesEmitidos.java
 D:\MavenProjects\LottoBanca\src\main\java\forms\VentaTkts.java
 D:\MavenProjects\LottoBanca\src\main\java\interfaces\UsuarioDAO.java
@@ -9,9 +11,12 @@ D:\MavenProjects\LottoBanca\src\main\java\metodos\HttpClient.java
 D:\MavenProjects\LottoBanca\src\main\java\modelo\DAO\UsuarioDAOImpl.java
 D:\MavenProjects\LottoBanca\src\main\java\modelo\PO\VentaTktVO.java
 D:\MavenProjects\LottoBanca\src\main\java\com\lottobancacr\lottobanca\LottoBanca.java
+D:\MavenProjects\LottoBanca\src\main\java\modelo\PO\SorteoUsuVO.java
 D:\MavenProjects\LottoBanca\src\main\java\metodos\PoolConexion.java
 D:\MavenProjects\LottoBanca\src\main\java\modelo\PO\UsuarioVO.java
 D:\MavenProjects\LottoBanca\src\main\java\modelo\tableModel\VentaTktTM.java
+D:\MavenProjects\LottoBanca\src\main\java\interfaces\SorteoDAO.java
 D:\MavenProjects\LottoBanca\src\main\java\metodos\Propiedades.java
 D:\MavenProjects\LottoBanca\src\main\java\modelo\Variables.java
+D:\MavenProjects\LottoBanca\src\main\java\forms\LiqDiaria.java
 D:\MavenProjects\LottoBanca\src\main\java\forms\Login.java

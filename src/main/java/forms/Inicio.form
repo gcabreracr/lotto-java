@@ -69,11 +69,17 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Sucursales"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="mMov_Usu">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Usuarios"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -110,6 +116,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tiquetes Emitidos"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mVentas_tktsEmitidosActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
               </AuxValues>
@@ -118,6 +127,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Liquidacion Diaria"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mVentas_liqDiaActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
               </AuxValues>
@@ -126,11 +138,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tiquetes Premiados"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mVentas_tktsPremiadosActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mVentas_EstadoCta">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Estado Cuenta"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mVentas_EstadoCtaActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -156,6 +174,11 @@
             <MenuItem class="javax.swing.JMenuItem" name="mSis_cambioPin">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cambio Pin"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mSis_config">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Configuraci&#xf3;n"/>
               </Properties>
             </MenuItem>
           </SubComponents>

@@ -1,6 +1,10 @@
 package modelo;
 
+import forms.ConsultaEstado;
+import forms.ConsultaPremios;
+import forms.LiqDiaria;
 import forms.Login;
+import forms.TktsEmitidos;
 import forms.VentaTkts;
 
 public class Variables {
@@ -19,11 +23,16 @@ public class Variables {
     public static int mAGEUSU; // Codigo agencia usuario
     public static String mNOMAGEUSU; // Nombre agencia usuario   
     public static String mDBUSUARIO; // Base datos usuario
+    public static String TIT_TKT = ""; // Titulo tiquete
+    public static String MSG_TKT = ""; // Mensaje de tiquete
 
     // Variable para validacion de largos de campos JTextField
     // Control singleton de apertura de ventanas
     public static Login frmLogin = null;
     public static VentaTkts frmVtaTkts = null;
-    
-    
+    public static LiqDiaria frmLiqDia = null;
+    public static TktsEmitidos frmTktsEmi = null;
+    public static ConsultaEstado frmConEstado = null;
+    public static ConsultaPremios frmConPremios = null;
+
 }

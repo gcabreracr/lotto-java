@@ -282,6 +282,9 @@ public class Login extends javax.swing.JDialog {
                 Variables.mNOMAGEUSU = usr.getNom_suc();
 
                 principal.setTitle("Lotto Banca CR -- Usuario: " + Variables.mNOMUSU);
+                
+                // Configura menu
+                configuraMenu();
 
                 // Actualiza el usuario en el archivo properties
                 prop.updateUsuario(txtIdUsu.getText());
@@ -365,4 +368,24 @@ public class Login extends javax.swing.JDialog {
     private javax.swing.JTextField txtIdUsu;
     private javax.swing.JPasswordField txtPassUsu;
     // End of variables declaration//GEN-END:variables
+
+    private void configuraMenu() {
+        
+        // 
+        if(usr.getTipo_usuario()<3){
+            Inicio.mMan_Sorteos.setEnabled(false);
+            Inicio.mMan_Sucursales.setEnabled(false);
+            Inicio.mAdm_CierreSor.setEnabled(false);
+            Inicio.mMov_Suc.setEnabled(false);
+        }
+        
+        if(usr.getTipo_usuario()==1){
+            Inicio.mMan_Usuarios.setEnabled(false);
+            Inicio.mMov_Usu.setEnabled(false);            
+        }
+       
+        
+        
+        
+    }
 }

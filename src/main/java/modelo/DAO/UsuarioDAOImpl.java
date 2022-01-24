@@ -50,10 +50,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                 } else {
                     return false;
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(UsuarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
-            }
+            } 
         }
 
     }

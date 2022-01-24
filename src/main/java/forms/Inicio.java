@@ -11,7 +11,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Variables;
+import static modelo.Variables.frmConEstado;
+import static modelo.Variables.frmConPremios;
+import static modelo.Variables.frmLiqDia;
 import static modelo.Variables.frmLogin;
+import static modelo.Variables.frmTktsEmi;
 import static modelo.Variables.frmVtaTkts;
 
 /**
@@ -74,6 +78,7 @@ public class Inicio extends javax.swing.JFrame {
         mSistema = new javax.swing.JMenu();
         mSis_cambioUsu = new javax.swing.JMenuItem();
         mSis_cambioPin = new javax.swing.JMenuItem();
+        mSis_config = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Lotto Banca");
@@ -165,15 +170,35 @@ public class Inicio extends javax.swing.JFrame {
         mVentas.add(mVenta_tkts);
 
         mVentas_tktsEmitidos.setText("Tiquetes Emitidos");
+        mVentas_tktsEmitidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mVentas_tktsEmitidosActionPerformed(evt);
+            }
+        });
         mVentas.add(mVentas_tktsEmitidos);
 
         mVentas_liqDia.setText("Liquidacion Diaria");
+        mVentas_liqDia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mVentas_liqDiaActionPerformed(evt);
+            }
+        });
         mVentas.add(mVentas_liqDia);
 
         mVentas_tktsPremiados.setText("Tiquetes Premiados");
+        mVentas_tktsPremiados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mVentas_tktsPremiadosActionPerformed(evt);
+            }
+        });
         mVentas.add(mVentas_tktsPremiados);
 
         mVentas_EstadoCta.setText("Estado Cuenta");
+        mVentas_EstadoCta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mVentas_EstadoCtaActionPerformed(evt);
+            }
+        });
         mVentas.add(mVentas_EstadoCta);
 
         MenuPrincipal.add(mVentas);
@@ -195,6 +220,9 @@ public class Inicio extends javax.swing.JFrame {
 
         mSis_cambioPin.setText("Cambio Pin");
         mSistema.add(mSis_cambioPin);
+
+        mSis_config.setText("Configuración");
+        mSistema.add(mSis_config);
 
         MenuPrincipal.add(mSistema);
 
@@ -230,7 +258,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void mVenta_tktsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVenta_tktsActionPerformed
         // TODO add your handling code here:
-        
+
         if (frmVtaTkts == null) {
             frmVtaTkts = new VentaTkts();
             Dimension ds = this.panelEscritorio.getSize();
@@ -242,7 +270,72 @@ public class Inicio extends javax.swing.JFrame {
             frmVtaTkts.toFront();
             frmVtaTkts.restoreSubcomponentFocus();
         }
+
     }//GEN-LAST:event_mVenta_tktsActionPerformed
+
+    private void mVentas_tktsEmitidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVentas_tktsEmitidosActionPerformed
+
+        if (frmTktsEmi == null) {
+            frmTktsEmi = new TktsEmitidos();
+            Dimension ds = this.panelEscritorio.getSize();
+            Dimension fs = frmTktsEmi.getSize();
+            frmTktsEmi.setLocation((ds.width - fs.width) / 2, (ds.height - fs.height) / 2);
+            this.panelEscritorio.add(frmTktsEmi);
+            frmTktsEmi.show();
+        } else {
+            frmTktsEmi.toFront();
+            frmTktsEmi.restoreSubcomponentFocus();
+        }
+
+    }//GEN-LAST:event_mVentas_tktsEmitidosActionPerformed
+
+    private void mVentas_liqDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVentas_liqDiaActionPerformed
+        // TODO add your handling code here:
+         if (frmLiqDia == null) {
+            frmLiqDia = new LiqDiaria();
+            Dimension ds = this.panelEscritorio.getSize();
+            Dimension fs = frmLiqDia.getSize();
+            frmLiqDia.setLocation((ds.width - fs.width) / 2, (ds.height - fs.height) / 2);
+            this.panelEscritorio.add(frmLiqDia);
+            frmLiqDia.show();
+        } else {
+            frmLiqDia.toFront();
+            frmLiqDia.restoreSubcomponentFocus();
+        }
+
+    }//GEN-LAST:event_mVentas_liqDiaActionPerformed
+
+    private void mVentas_tktsPremiadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVentas_tktsPremiadosActionPerformed
+        // TODO add your handling code here:
+        if (frmConPremios == null) {
+            frmConPremios = new ConsultaPremios();
+            Dimension ds = this.panelEscritorio.getSize();
+            Dimension fs = frmConPremios.getSize();
+            frmConPremios.setLocation((ds.width - fs.width) / 2, (ds.height - fs.height) / 2);
+            this.panelEscritorio.add(frmConPremios);
+            frmConPremios.show();
+        } else {
+            frmConPremios.toFront();
+            frmConPremios.restoreSubcomponentFocus();
+        }
+        
+    }//GEN-LAST:event_mVentas_tktsPremiadosActionPerformed
+
+    private void mVentas_EstadoCtaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVentas_EstadoCtaActionPerformed
+        // TODO add your handling code here:
+         if (frmConEstado == null) {
+            frmConEstado = new ConsultaEstado();
+            Dimension ds = this.panelEscritorio.getSize();
+            Dimension fs = frmConEstado.getSize();
+            frmConEstado.setLocation((ds.width - fs.width) / 2, (ds.height - fs.height) / 2);
+            this.panelEscritorio.add(frmConEstado);
+            frmConEstado.show();
+        } else {
+            frmConEstado.toFront();
+            frmConEstado.restoreSubcomponentFocus();
+        }
+        
+    }//GEN-LAST:event_mVentas_EstadoCtaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -255,11 +348,12 @@ public class Inicio extends javax.swing.JFrame {
     public static javax.swing.JMenuItem mMan_Sucursales;
     public static javax.swing.JMenuItem mMan_Usuarios;
     public static javax.swing.JMenu mMantenimiento;
-    private javax.swing.JMenuItem mMov_Suc;
-    private javax.swing.JMenuItem mMov_Usu;
+    public static javax.swing.JMenuItem mMov_Suc;
+    public static javax.swing.JMenuItem mMov_Usu;
     public static javax.swing.JMenu mMovimientos;
     private javax.swing.JMenuItem mSis_cambioPin;
     private javax.swing.JMenuItem mSis_cambioUsu;
+    private javax.swing.JMenuItem mSis_config;
     public static javax.swing.JMenu mSistema;
     public static javax.swing.JMenuItem mVenta_tkts;
     public static javax.swing.JMenu mVentas;
