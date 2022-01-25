@@ -5,7 +5,25 @@
  */
 package forms;
 
+import interfaces.UsuarioDAO;
+import java.awt.Cursor;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import metodos.HttpClient;
+import modelo.PO.MovCtaUsuVO;
 import modelo.Variables;
+import modelo.tableModel.ConsultaEstCtaTM;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -13,11 +31,55 @@ import modelo.Variables;
  */
 public class ConsultaEstado extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form ConsultaEstado
-     */
+    ArrayList<MovCtaUsuVO> listaMovimientos;
+
+    UsuarioDAO usuarioDAO;
+    ConsultaEstCtaTM modeloTabla;
+
+    String mFechaInicial, mFechaFinal;
+    int mSaldoInicial, mMontoMov, mSaldoFinal;
+
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat dfDMY = new SimpleDateFormat("dd/MM/yyyy");
+    DecimalFormat fEntero = new DecimalFormat("###,###,###");
+    DecimalFormat fCeros = new DecimalFormat("00");
+
     public ConsultaEstado() {
         initComponents();
+
+        listaMovimientos = new ArrayList<>();
+        txtFechaIni.setDate(new Date());
+        txtFechaFin.setDate(new Date());
+        crearTabla();
+        btnConsultar.requestFocus();
+
+    }
+
+    private void crearTabla() {
+
+        modeloTabla = new ConsultaEstCtaTM();
+        jtMovimientos.setModel(modeloTabla);
+
+        //Configura columnas 
+        DefaultTableCellRenderer rightDTCR = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer centerDTCR = new DefaultTableCellRenderer();
+        rightDTCR.setHorizontalAlignment(SwingConstants.RIGHT);
+        centerDTCR.setHorizontalAlignment(SwingConstants.CENTER);
+        if (jtMovimientos.getColumnModel().getColumnCount() > 0) {
+            jtMovimientos.getColumnModel().getColumn(0).setResizable(false);
+            jtMovimientos.getColumnModel().getColumn(0).setPreferredWidth(25);
+            jtMovimientos.getColumnModel().getColumn(0).setCellRenderer(centerDTCR);
+            jtMovimientos.getColumnModel().getColumn(0).setHeaderRenderer(centerDTCR);
+            jtMovimientos.getColumnModel().getColumn(1).setResizable(false);
+            jtMovimientos.getColumnModel().getColumn(1).setPreferredWidth(50);
+            jtMovimientos.getColumnModel().getColumn(2).setResizable(false);
+            jtMovimientos.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jtMovimientos.getColumnModel().getColumn(3).setResizable(false);
+            jtMovimientos.getColumnModel().getColumn(3).setPreferredWidth(50);
+            jtMovimientos.getColumnModel().getColumn(3).setCellRenderer(rightDTCR);
+            jtMovimientos.getColumnModel().getColumn(3).setHeaderRenderer(centerDTCR);
+        }
+
     }
 
     /**
@@ -31,21 +93,21 @@ public class ConsultaEstado extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        txtFechaTkt = new com.toedter.calendar.JDateChooser();
+        txtFechaIni = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
-        txtFechaTkt1 = new com.toedter.calendar.JDateChooser();
-        jButton1 = new javax.swing.JButton();
+        txtFechaFin = new com.toedter.calendar.JDateChooser();
+        btnConsultar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        lbVentaTotal = new javax.swing.JLabel();
+        txtSaldoIni = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        lbMonPremios = new javax.swing.JLabel();
+        txtMontoMov = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        lbLiqNeta = new javax.swing.JLabel();
+        txtSaldoFin = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtMovimientos = new javax.swing.JTable();
 
         setClosable(true);
         setTitle("Consulta Estado Cuenta");
@@ -69,9 +131,26 @@ public class ConsultaEstado extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Del");
 
+        txtFechaIni.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtFechaIniPropertyChange(evt);
+            }
+        });
+
         jLabel4.setText("Al");
 
-        jButton1.setText("Consultar");
+        txtFechaFin.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtFechaFinPropertyChange(evt);
+            }
+        });
+
+        btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Periodo");
 
@@ -80,23 +159,26 @@ public class ConsultaEstado extends javax.swing.JInternalFrame {
         jLabel2.setText("Saldo Inicial");
         jLabel2.setPreferredSize(new java.awt.Dimension(60, 20));
 
-        lbVentaTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbVentaTotal.setText("0");
-        lbVentaTotal.setPreferredSize(new java.awt.Dimension(40, 20));
+        txtSaldoIni.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        txtSaldoIni.setText("0");
+        txtSaldoIni.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtSaldoIni.setPreferredSize(new java.awt.Dimension(40, 20));
 
         jLabel7.setText("Monto Movimientos");
         jLabel7.setPreferredSize(new java.awt.Dimension(60, 20));
 
-        lbMonPremios.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbMonPremios.setText("0");
-        lbMonPremios.setPreferredSize(new java.awt.Dimension(40, 20));
+        txtMontoMov.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        txtMontoMov.setText("0");
+        txtMontoMov.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtMontoMov.setPreferredSize(new java.awt.Dimension(40, 20));
 
         jLabel9.setText("Saldo Final");
         jLabel9.setPreferredSize(new java.awt.Dimension(60, 20));
 
-        lbLiqNeta.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbLiqNeta.setText("0");
-        lbLiqNeta.setPreferredSize(new java.awt.Dimension(40, 20));
+        txtSaldoFin.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        txtSaldoFin.setText("0");
+        txtSaldoFin.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtSaldoFin.setPreferredSize(new java.awt.Dimension(40, 20));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -108,15 +190,15 @@ public class ConsultaEstado extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbVentaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtSaldoIni, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbLiqNeta, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbMonPremios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtSaldoFin, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMontoMov, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -125,21 +207,21 @@ public class ConsultaEstado extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbVentaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSaldoIni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbMonPremios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMontoMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbLiqNeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSaldoFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle de movimientos"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtMovimientos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -150,12 +232,12 @@ public class ConsultaEstado extends javax.swing.JInternalFrame {
                 "Fecha", "Doc. Referencia", "Detalle", "Monto"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(15);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(50);
+        jScrollPane1.setViewportView(jtMovimientos);
+        if (jtMovimientos.getColumnModel().getColumnCount() > 0) {
+            jtMovimientos.getColumnModel().getColumn(0).setPreferredWidth(15);
+            jtMovimientos.getColumnModel().getColumn(1).setPreferredWidth(50);
+            jtMovimientos.getColumnModel().getColumn(2).setPreferredWidth(150);
+            jtMovimientos.getColumnModel().getColumn(3).setPreferredWidth(50);
         }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -164,8 +246,8 @@ public class ConsultaEstado extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,16 +270,18 @@ public class ConsultaEstado extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel1)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtFechaTkt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtFechaTkt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jButton1)
-                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtFechaIni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(64, 64, 64)
+                                        .addComponent(btnConsultar))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 74, Short.MAX_VALUE)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -209,12 +293,15 @@ public class ConsultaEstado extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton1)
-                        .addComponent(txtFechaTkt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4)
-                        .addComponent(txtFechaTkt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnConsultar)
+                            .addComponent(txtFechaIni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -228,14 +315,36 @@ public class ConsultaEstado extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         // TODO add your handling code here:
-        
-        Variables.frmConEstado=null;
-        
+
+        Variables.frmConEstado = null;
+
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void txtFechaIniPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtFechaIniPropertyChange
+        // TODO add your handling code here:
+        txtFechaFin.requestFocus();
+    }//GEN-LAST:event_txtFechaIniPropertyChange
+
+    private void txtFechaFinPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtFechaFinPropertyChange
+
+        btnConsultar.requestFocus();
+    }//GEN-LAST:event_txtFechaFinPropertyChange
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+
+        if (txtFechaFin.getDate().compareTo(txtFechaIni.getDate()) < 0) {
+
+            JOptionPane.showMessageDialog(this, "Fecha Final es menor que la fecha Inicial");
+            txtFechaFin.requestFocus();
+            return;
+        }
+
+        consultaEstadoCuenta();
+    }//GEN-LAST:event_btnConsultarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnConsultar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -246,11 +355,77 @@ public class ConsultaEstado extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JLabel lbLiqNeta;
-    private javax.swing.JLabel lbMonPremios;
-    private javax.swing.JLabel lbVentaTotal;
-    private com.toedter.calendar.JDateChooser txtFechaTkt;
-    private com.toedter.calendar.JDateChooser txtFechaTkt1;
+    private javax.swing.JTable jtMovimientos;
+    private com.toedter.calendar.JDateChooser txtFechaFin;
+    private com.toedter.calendar.JDateChooser txtFechaIni;
+    private javax.swing.JLabel txtMontoMov;
+    private javax.swing.JLabel txtSaldoFin;
+    private javax.swing.JLabel txtSaldoIni;
     // End of variables declaration//GEN-END:variables
+
+    private void consultaEstadoCuenta() {
+
+        mFechaInicial = df.format(txtFechaIni.getDate());
+        mFechaFinal = df.format(txtFechaFin.getDate());
+
+        listaMovimientos = new ArrayList<>();
+
+        JSONObject jsonSend = new JSONObject();
+        jsonSend.put("w", "apiLotto");
+        jsonSend.put("r", "consulta_estado_cuenta_usu");
+        jsonSend.put("fecha_inicial", mFechaInicial);
+        jsonSend.put("fecha_final", mFechaFinal);
+        jsonSend.put("cod_usuario", Variables.mCODUSU);
+
+        mSaldoInicial = 0;
+        mMontoMov = 0;
+        mSaldoFinal = 0;
+
+        String url = Variables.URL_API;
+
+        JSONObject respuesta;
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+        try {
+            respuesta = HttpClient.httpPOST(url, jsonSend).optJSONObject("resp");
+
+            mSaldoInicial = respuesta.optInt("saldo_inicial");
+            txtSaldoIni.setText(fEntero.format(mSaldoInicial));
+            JSONArray movimientos = respuesta.optJSONArray("movimientos");
+            if (movimientos.length() > 0) {
+                for (int i = 0; i < movimientos.length(); i++) {
+                    MovCtaUsuVO mov = new MovCtaUsuVO();
+                    mov.setConse_mov(movimientos.optJSONObject(i).optInt("conse_mov"));
+
+                    Date fechaJson = null;
+                    try {
+                        fechaJson = df.parse(movimientos.optJSONObject(i).optString("fec_mov"));
+                    } catch (ParseException ex) {
+                        Logger.getLogger(ConsultaEstado.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    mov.setFechaMov(dfDMY.format(fechaJson));
+                    mov.setDocRefe(movimientos.optJSONObject(i).optString("doc_refe"));
+                    mov.setDetMov(movimientos.optJSONObject(i).optString("detalle"));
+                    int monto = movimientos.optJSONObject(i).optInt("mon_mov");
+                    mMontoMov += monto;
+                    mov.setMontoMov(monto);
+                    listaMovimientos.add(mov);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "NO hay movimientos en el periodo seleccionado");
+
+            }
+            txtMontoMov.setText(fEntero.format(mMontoMov));
+            mSaldoFinal = mSaldoInicial + mMontoMov;
+            txtSaldoFin.setText(fEntero.format(mSaldoFinal));
+
+            modeloTabla.llenaLista(listaMovimientos);
+
+        } catch (IOException ex) {
+            Logger.getLogger(ConsultaEstado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
 }

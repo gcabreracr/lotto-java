@@ -20,7 +20,7 @@ public class TktsEmitidosTM extends AbstractTableModel {
     DecimalFormat fTkt = new DecimalFormat("000000");
 
     private ArrayList<VentaDiariaTktVO> listaTktsEmitidos;
-    private final String[] nombreColumnas = {" Tkt", "Monto", "Referencia"};
+    private final String[] nombreColumnas = {" # Tkt", "Monto", "Referencia"};
 
     public TktsEmitidosTM() {
 

@@ -687,10 +687,10 @@ public class VentaTkts extends javax.swing.JInternalFrame {
     }
 
     private void limpiaCampos() {
-                
-        mVentaTotal=0;
-        codSorteo=0;
-        nuevoTkt=true;
+
+        mVentaTotal = 0;
+        codSorteo = 0;
+        nuevoTkt = true;
         btnImprimir.setText("Imprimir");
         txtFechaTkt.setDate(new Date());
         txtMonApuesta.setText("");
@@ -1003,6 +1003,15 @@ public class VentaTkts extends javax.swing.JInternalFrame {
     }
 
     private String llenaDetalleTkt() {
+
+        Collections.sort(listaVentaTkt, new Comparator<VentaTktVO>() {
+            @Override
+            public int compare(VentaTktVO o1, VentaTktVO o2) {
+                String a = fMonto.format(o1.getMonto()) + o1.getNumero();
+                String b = fMonto.format(o2.getMonto()) + o2.getNumero();
+                return a.compareTo(b);
+            }
+        });
 
         String sNum, sMon;
         String mNomSorteo = listaSorteosUsu.get(cbSorteos.getSelectedIndex()).getNom_sorteo();
