@@ -300,23 +300,27 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
 
-        if (jtTiquetes.getSelectedRow() > 0) {
+        if (jtTiquetes.getSelectedRow() < 0) {
 
+            JOptionPane.showMessageDialog(this, "Seleccione un tiquete");
+
+        } else {
             int fila = jtTiquetes.getSelectedRow();
             mNumTkt = listaDiariaTkts.get(fila).getNum_tkt();
             if (consultaTkt()) {
                 imprimeTiquete();
             }
 
-        } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un tiquete");
         }
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
 
-        if (jtTiquetes.getSelectedRow() > 0) {
+        if (jtTiquetes.getSelectedRow() < 0) {
 
+            JOptionPane.showMessageDialog(this, "Seleccione un tiquete");
+            
+        } else {
             int seleccion = JOptionPane.showOptionDialog(
                     this,
                     "Desea anular el tiquete ?",
@@ -337,9 +341,8 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
 
             anulaTiquete();
 
-        } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un tiquete");
         }
+
     }//GEN-LAST:event_btnAnularActionPerformed
 
 
@@ -612,7 +615,7 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
         builder.append(new char[]{27, 'a', 1}); // Alineacion centrada
         builder.append("PAGAMOS AL  ").append(String.valueOf(mFacPremio)).append("\r\n").append("\r\n");
 
-        if (Variables.MSG_TKT != null || Variables.MSG_TKT.length() > 0) {
+        if (Variables.MSG_TKT.length() > 0) {
             builder.append(new char[]{27, '!', 0}); // 10cpp
             builder.append(Variables.MSG_TKT).append("\r\n").append("\r\n");
         }

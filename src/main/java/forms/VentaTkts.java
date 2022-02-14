@@ -1021,7 +1021,7 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         builder.append(new char[]{27, '@'});
         builder.append(new char[]{27, 'd', 3}); // Avance de 3 lineas
 
-        if (Variables.TIT_TKT != null || Variables.TIT_TKT.length() > 0) {
+        if (Variables.TIT_TKT.length() > 0) {
             builder.append(new char[]{27, '!', 24}); // doble altura
             builder.append(new char[]{27, 'a', 1}); // Alineacion centrada
             builder.append(Variables.TIT_TKT).append("\r\n");
@@ -1088,7 +1088,7 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         builder.append(new char[]{27, 'a', 1}); // Alineacion centrada
         builder.append("PAGAMOS AL  ").append(String.valueOf(mFacPremio)).append("\r\n").append("\r\n");
 
-        if (Variables.MSG_TKT != null || Variables.MSG_TKT.length() > 0) {
+        if (Variables.MSG_TKT.length() > 0) {
             builder.append(new char[]{27, '!', 0}); // 10cpp
             builder.append(Variables.MSG_TKT).append("\r\n").append("\r\n");
         }
