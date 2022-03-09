@@ -22,7 +22,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     @Override
     public boolean Login(UsuarioVO usr) throws SQLException {
 
-        String sql = "SELECT u.cod_usuario,u.nom_usuario,u.pin_pass,u.tipo_usuario,u.cod_suc,a.nom_suc,u.tit_tkt,u.msg_tkt,u.est_usuario"
+        String sql = "SELECT u.cod_usuario,u.nom_usuario,u.pin_pass,u.tipo_usuario,u.cod_suc,a.nom_suc,u.tit_tkt,u.msg_tkt,u.nom_imp,u.est_usuario"
                 + " FROM usuarios AS u"
                 + " INNER JOIN sucursales AS a ON u.cod_suc=a.cod_suc"
                 + " WHERE u.id_usuario=?";
@@ -42,24 +42,34 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                     usr.setNom_suc(rs.getString("nom_suc"));
                     usr.setTit_tkt(rs.getString("tit_tkt"));
                     usr.setMsg_tkt(rs.getString("msg_tkt"));
+                    usr.setNom_imp(rs.getString("nom_imp"));
                     usr.setEst_usuario(rs.getInt("est_usuario"));
                     return true;
 
                 } else {
                     return false;
                 }
-            } 
+            }
         }
 
     }
 
     @Override
-    public void actualizaTit_Msg(UsuarioVO usr) throws SQLException {
-        
-        
-        
-        
-        
+    public void actualizaConfig(UsuarioVO usr) throws SQLException {
+
+        String sql = "UPDATE usuarios SET tit_tkt=?, msg_tkt=?, nom_imp=? WHERE cod_usuario=? ";
+
+        try (Connection conn = PoolConexion.getDataSource().getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setString(1, usr.getTit_tkt());
+            ps.setString(2, usr.getMsg_tkt());
+            ps.setString(3, usr.getNom_imp());
+            ps.setInt(4, usr.getCod_usuario());
+            ps.executeUpdate();
+
+        }
+
     }
 
 }

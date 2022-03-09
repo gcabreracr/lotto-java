@@ -21,6 +21,7 @@ public class UsuarioVO {
     private int est_usuario;
     private String tit_tkt;
     private String msg_tkt;
+    private String nom_imp;
 
     public UsuarioVO() {
     }
@@ -104,6 +105,14 @@ public class UsuarioVO {
 
     public void setMsg_tkt(String msg_tkt) {
         this.msg_tkt = msg_tkt;
+    }
+
+    public String getNom_imp() {
+        return nom_imp;
+    }
+
+    public void setNom_imp(String nom_imp) {
+        this.nom_imp = nom_imp;
     }
     
     

@@ -1,9 +1,5 @@
 package forms;
 
-import static java.lang.Thread.sleep;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class Splash extends javax.swing.JDialog {
 
     public Splash() {

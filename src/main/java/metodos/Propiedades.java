@@ -5,7 +5,6 @@
  */
 package metodos;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,7 +16,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Variables;
-import org.json.JSONObject;
 
 /**
  *
@@ -30,7 +28,7 @@ public class Propiedades extends Properties {
 
     public Propiedades() {
         this.archivo = new File("config.properties");
-        //this.prop = new Properties();
+        
     }
 
     public void crearArchivo() throws FileNotFoundException, IOException {
@@ -73,9 +71,11 @@ public class Propiedades extends Properties {
                 setProperty("ultimo.usuario", codUsuario);
                 store(outputStream, "Config");
             }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Propiedades.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Propiedades.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
 
    

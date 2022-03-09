@@ -26,6 +26,7 @@ public class Variables {
     public static String mDBUSUARIO; // Base datos usuario
     public static String TIT_TKT = ""; // Titulo tiquete
     public static String MSG_TKT = ""; // Mensaje de tiquete
+    public static String NOM_IMP = "";
 
     // Variable para validacion de largos de campos JTextField
     // Control singleton de apertura de ventanas

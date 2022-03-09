@@ -518,7 +518,6 @@ public class VentaTkts extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtMonApuestaActionPerformed
 
     private void cbSorteosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSorteosActionPerformed
-        // TODO add your handling code here:
 
         if (cbSorteos.getSelectedIndex() > 0) {
             codSorteo = listaSorteosUsu.get(cbSorteos.getSelectedIndex()).getCod_sorteo();
@@ -981,7 +980,16 @@ public class VentaTkts extends javax.swing.JInternalFrame {
 
         if (impresoras.length > 0) {
 
-            PrintService impresora = (PrintService) JOptionPane.showInputDialog(this, "Elija impresora:", "Imprime tiquete", JOptionPane.QUESTION_MESSAGE, null, impresoras, impresoras[0]);
+            PrintService impresora = null;
+
+            for (PrintService impresora1 : impresoras) {
+                if (impresora1.getName().equals(Variables.NOM_IMP)) {
+                    impresora = impresora1;
+                    break;
+                }
+            }
+
+            //PrintService impresora = (PrintService) JOptionPane.showInputDialog(this, "Elija impresora:", "Imprime tiquete", JOptionPane.QUESTION_MESSAGE, null, impresoras, impresoras[0]);
             if (impresora != null) {
 
                 DocPrintJob printJob = impresora.createPrintJob();
@@ -994,6 +1002,8 @@ public class VentaTkts extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Error de impresion: " + ex.toString());
                 }
 
+            }else{
+                JOptionPane.showMessageDialog(null, "Error de impresion: ");
             }
 
         } else {

@@ -4,7 +4,6 @@ import interfaces.UsuarioDAO;
 import java.awt.Cursor;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -283,6 +282,7 @@ public class Login extends javax.swing.JDialog {
                 Variables.mNOMAGEUSU = usr.getNom_suc();
                 Variables.TIT_TKT = usr.getTit_tkt();
                 Variables.MSG_TKT = usr.getMsg_tkt();
+                Variables.NOM_IMP = usr.getNom_imp();
 
                 principal.setTitle("Lotto Banca CR -- Usuario: " + Variables.mNOMUSU);
                 
