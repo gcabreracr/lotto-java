@@ -17,6 +17,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import metodos.HttpClient;
@@ -26,6 +27,7 @@ import modelo.PO.VentaTktVO;
 import modelo.Variables;
 import modelo.tableModel.VentaTktTM;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -431,6 +433,7 @@ public class LiqDiaria extends javax.swing.JInternalFrame {
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
         try {
             respuesta = HttpClient.httpPOST(url, jsonSend).getJSONObject("resp");
+            //respuesta = HttpClient.httpPOST(url, jsonSend);
             if (respuesta != null) {
 
                 JSONArray liqSorteo = respuesta.optJSONArray("liqSorteo");
@@ -453,7 +456,10 @@ public class LiqDiaria extends javax.swing.JInternalFrame {
 
             modeloTabla.llenaLista(listaVentaTkt);
 
-        } catch (IOException ex) {
+        } catch (IOException | JSONException ex) {
+            
+            JOptionPane.showMessageDialog(null, "NO existe ventas registradas para este sorteo");
+            
             Logger.getLogger(LiqDiaria.class.getName()).log(Level.SEVERE, null, ex);
         }
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));

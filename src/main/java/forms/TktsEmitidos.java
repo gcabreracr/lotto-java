@@ -319,7 +319,7 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
         if (jtTiquetes.getSelectedRow() < 0) {
 
             JOptionPane.showMessageDialog(this, "Seleccione un tiquete");
-            
+
         } else {
             int seleccion = JOptionPane.showOptionDialog(
                     this,
@@ -449,6 +449,9 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
 
     private boolean consultaTkt() {
 
+        listaVentaTkt = new ArrayList<>();
+        mTotalTkt = 0;
+
         JSONObject jsonSend = new JSONObject();
         jsonSend.put("w", "apiLotto");
         jsonSend.put("r", "consulta_venta_tkt");
@@ -481,7 +484,7 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
                 mFechaTkt = formatoDMY.format(fechaJson);
 
                 JSONArray listaNumeros = respuesta.optJSONArray("numeros");
-                mTotalTkt = 0;
+
                 for (int i = 0; i < listaNumeros.length(); i++) {
                     VentaTktVO ventaTkt = new VentaTktVO();
                     ventaTkt.setNumero(listaNumeros.optJSONObject(i).optString("num_jugado"));
@@ -507,7 +510,16 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
 
         if (impresoras.length > 0) {
 
-            PrintService impresora = (PrintService) JOptionPane.showInputDialog(this, "Elija impresora:", "Imprime tiquete", JOptionPane.QUESTION_MESSAGE, null, impresoras, impresoras[0]);
+            PrintService impresora = null;
+
+            for (PrintService impresora1 : impresoras) {
+                if (impresora1.getName().equals(Variables.NOM_IMP)) {
+                    impresora = impresora1;
+                    break;
+                }
+            }
+
+            //PrintService impresora = (PrintService) JOptionPane.showInputDialog(this, "Elija impresora:", "Imprime tiquete", JOptionPane.QUESTION_MESSAGE, null, impresoras, impresoras[0]);
             if (impresora != null) {
 
                 DocPrintJob printJob = impresora.createPrintJob();
@@ -530,6 +542,7 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
 
     private String llenaDetalleTkt() {
 
+        // consultaTkt();
         Collections.sort(listaVentaTkt, new Comparator<VentaTktVO>() {
             @Override
             public int compare(VentaTktVO o1, VentaTktVO o2) {
@@ -609,7 +622,7 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
         }
         builder.append("\n");
         builder.append("==============================\r\n");
-        builder.append("Total Tiquete: ").append(String.format("%10s", fMonto.format(mVentaTotal))).append("\r\n").append("\r\n");
+        builder.append("Total Tiquete: ").append(String.format("%10s", fMonto.format(mTotalTkt))).append("\r\n").append("\r\n");
 
         builder.append(new char[]{27, '!', 8}); // Negrita, 10cpp
         builder.append(new char[]{27, 'a', 1}); // Alineacion centrada
@@ -626,7 +639,7 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
 
         builder.append(new char[]{27, '!', 0}); // 10 CPP
         builder.append(new char[]{27, 'd', 5}); // Avance de lineas
-
+        builder.append(new char[]{27, 'm'}); // Corte parcial papel
         return builder.toString();
 
     }
@@ -657,6 +670,8 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
             Logger.getLogger(TktsEmitidos.class.getName()).log(Level.SEVERE, null, ex);
         }
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+        consultaTkts();
 
     }
 

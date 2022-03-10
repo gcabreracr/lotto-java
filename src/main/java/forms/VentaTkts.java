@@ -697,7 +697,8 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         txtReferencia.setText("");
         lbVentaTotal.setText("0");
         cbSorteos.setSelectedIndex(0);
-        modeloTabla.llenaLista(new ArrayList<>());
+        listaVentaTkt = new ArrayList();
+        modeloTabla.llenaLista(listaVentaTkt);
 
     }
 
@@ -1002,7 +1003,7 @@ public class VentaTkts extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Error de impresion: " + ex.toString());
                 }
 
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Error de impresion: ");
             }
 
@@ -1109,7 +1110,7 @@ public class VentaTkts extends javax.swing.JInternalFrame {
 
         builder.append(new char[]{27, '!', 0}); // 10 CPP
         builder.append(new char[]{27, 'd', 5}); // Avance de lineas
-
+        builder.append(new char[]{27, 'm'}); // Corte parcial papel
         return builder.toString();
 
     }
