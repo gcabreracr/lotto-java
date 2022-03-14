@@ -218,7 +218,7 @@ public class Inicio extends javax.swing.JFrame {
         mSis_cambioPin.setText("Cambio Pin");
         mSistema.add(mSis_cambioPin);
 
-        mSis_config.setText("Configura Tiquete");
+        mSis_config.setText("Configuración");
         mSis_config.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mSis_configActionPerformed(evt);

@@ -53,6 +53,7 @@ forms\LiqDiaria$4.class
 modelo\PO\UsuarioVO.class
 forms\ConsultaEstado.class
 forms\VentaTkts$4.class
+forms\ConfiguraTkt$4.class
 forms\VentaTkts.class
 forms\VentaTkts$15.class
 forms\Inicio$2.class
@@ -86,6 +87,7 @@ forms\Inicio$7.class
 forms\Inicio$6.class
 forms\TktsEmitidos$6.class
 forms\Inicio.class
+forms\ConsultaPremios$6.class
 forms\LiqDiaria$3.class
 forms\Login$3.class
 forms\VentaTkts$14.class

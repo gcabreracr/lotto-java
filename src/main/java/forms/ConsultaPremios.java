@@ -16,6 +16,13 @@ import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -230,6 +237,11 @@ public class ConsultaPremios extends javax.swing.JInternalFrame {
         txtTotalPremios.setPreferredSize(new java.awt.Dimension(50, 20));
 
         btnImprimir.setText("Imprimir");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
 
         btnConsultar.setText("Consultar");
         btnConsultar.addActionListener(new java.awt.event.ActionListener() {
@@ -334,6 +346,18 @@ public class ConsultaPremios extends javax.swing.JInternalFrame {
         btnConsultar.requestFocus();
     }//GEN-LAST:event_txtFechaSorteoPropertyChange
 
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+
+        if (listaPremios.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay lista de premios");
+            return;
+        }
+
+        imprimePremios();
+
+
+    }//GEN-LAST:event_btnImprimirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultar;
@@ -393,7 +417,7 @@ public class ConsultaPremios extends javax.swing.JInternalFrame {
 
             } else {
                 txtNumPremiado.setText("");
-               JOptionPane.showMessageDialog(this, "No hay tiquete premiados para este sorteo");
+                JOptionPane.showMessageDialog(this, "No hay tiquete premiados para este sorteo");
             }
             txtTotalPremios.setText(fMonto.format(mTotalPremios));
             modeloTabla.llenaLista(listaPremios);
@@ -402,5 +426,85 @@ public class ConsultaPremios extends javax.swing.JInternalFrame {
             Logger.getLogger(ConsultaPremios.class.getName()).log(Level.SEVERE, null, ex);
         }
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    private void imprimePremios() {
+
+        DocFlavor formatoDoc = DocFlavor.BYTE_ARRAY.AUTOSENSE;
+        PrintService[] impresoras = PrintServiceLookup.lookupPrintServices(formatoDoc, null);
+
+        if (impresoras.length > 0) {
+
+            PrintService impresora = null;
+
+            for (PrintService impresora1 : impresoras) {
+                if (impresora1.getName().equals(Variables.NOM_IMP)) {
+                    impresora = impresora1;
+                    break;
+                }
+            }
+            if (impresora != null) {
+                DocPrintJob printJob = impresora.createPrintJob();
+                Doc documento = new SimpleDoc(generaListaPremios().getBytes(), formatoDoc, null);
+
+                try {
+                    printJob.print(documento, null);
+                } catch (PrintException ex) {
+                    Logger.getLogger(VentaTkts.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "Error de impresion: " + ex.toString());
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay impresoras definidas");
+        }
+
+    }
+
+    private String generaListaPremios() {
+        
+        String mNomSorteo = listaSorteosUsu.get(cbSorteos.getSelectedIndex()).getNom_sorteo();
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(new char[]{27, '@'});
+        builder.append(new char[]{27, 'd', 3}); // Avance de 3 lineas
+
+        builder.append(new char[]{27, '!', 8}); // Negrita, 10cpp
+        builder.append("LISTA TIQUETES PREMIADOS").append("\r\n");
+
+        builder.append(new char[]{27, '!', 0}); // 10cpp
+        builder.append(new char[]{27, 'a', 0}); // Alineacion izquierda
+
+        builder.append("\r\n");
+        builder.append("Fecha: ").append(mFecSorteo).append("\r\n");
+        builder.append("Sorteo: ").append(mNomSorteo).append("\r\n");
+        builder.append("Numero Premiado: ").append(txtNumPremiado.getText()).append("\r\n");
+        builder.append("Monto Premios..: ").append(txtTotalPremios.getText()).append("\r\n");
+
+        builder.append("Detalle\r\n");
+        builder.append(String.format("%9s", "Tkt")).append(String.format("%10s", " Apuesta")).append(String.format("%10s", "   Premio")).append("\r\n");
+        builder.append("==============================\r\n");
+
+        for (int i = 0; i < listaPremios.size(); i++) {
+
+            int numtkt = listaPremios.get(i).getNum_tkt();
+            int monJugado = listaPremios.get(i).getMon_jugado();
+            int monPremio = listaPremios.get(i).getMon_premio();
+            String detalle = listaPremios.get(i).getReferencia();
+            builder.append(String.format("%9s", fTkt.format(numtkt))).append(String.format("%10s", fMonto.format(monJugado))).append(String.format("%10s", fMonto.format(monPremio))).append("\r\n");
+            if (!detalle.isEmpty()) {
+                builder.append(detalle).append("\r\n");
+            }
+
+            builder.append("..............................\r\n");
+
+        }
+        builder.append(new char[]{27, '!', 1}); // 12cpp       
+        builder.append("Generado por LOTTOBANCACR").append("\r\n");
+
+        builder.append(new char[]{27, '!', 0}); // 10 CPP
+        builder.append(new char[]{27, 'd', 5}); // Avance de lineas
+        builder.append(new char[]{27, 'm'}); // Corte parcial papel
+        
+        return builder.toString();
     }
 }

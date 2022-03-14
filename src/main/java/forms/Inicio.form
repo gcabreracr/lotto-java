@@ -178,7 +178,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mSis_config">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Configura Tiquete"/>
+                <Property name="text" type="java.lang.String" value="Configuraci&#xf3;n"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mSis_configActionPerformed"/>

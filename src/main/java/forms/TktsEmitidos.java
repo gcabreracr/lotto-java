@@ -519,7 +519,7 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
                 }
             }
 
-            //PrintService impresora = (PrintService) JOptionPane.showInputDialog(this, "Elija impresora:", "Imprime tiquete", JOptionPane.QUESTION_MESSAGE, null, impresoras, impresoras[0]);
+            
             if (impresora != null) {
 
                 DocPrintJob printJob = impresora.createPrintJob();
@@ -620,7 +620,7 @@ public class TktsEmitidos extends javax.swing.JInternalFrame {
                 builder.append("\r\n");
             }*/
         }
-        builder.append("\n");
+        builder.append("\r\n");
         builder.append("==============================\r\n");
         builder.append("Total Tiquete: ").append(String.format("%10s", fMonto.format(mTotalTkt))).append("\r\n").append("\r\n");
 
