@@ -17,7 +17,7 @@ public class UsuarioVO {
     private String nom_suc;
     private String nom_usuario;
     private int tipo_usuario;
-    private int pin_pass;
+    private String pin_pass;
     private int est_usuario;
     private String tit_tkt;
     private String msg_tkt;
@@ -75,11 +75,11 @@ public class UsuarioVO {
         this.tipo_usuario = tipo_usuario;
     }
 
-    public int getPin_pass() {
+    public String getPin_pass() {
         return pin_pass;
     }
 
-    public void setPin_pass(int pin_pass) {
+    public void setPin_pass(String pin_pass) {
         this.pin_pass = pin_pass;
     }
 

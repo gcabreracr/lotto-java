@@ -1,5 +1,6 @@
 package modelo;
 
+import forms.CambiarPin;
 import forms.ConfiguraTkt;
 import forms.ConsultaEstado;
 import forms.ConsultaPremios;
@@ -37,6 +38,6 @@ public class Variables {
     public static ConsultaEstado frmConEstado = null;
     public static ConsultaPremios frmConPremios = null;
     public static ConfiguraTkt frmConTkt = null;
-    
+    public static CambiarPin frmCambiaPin = null;
     
 }

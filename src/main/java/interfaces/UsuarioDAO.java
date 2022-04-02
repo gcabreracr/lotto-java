@@ -17,4 +17,6 @@ public interface UsuarioDAO {
     public boolean Login(UsuarioVO usr) throws SQLException;
 
     public void actualizaConfig(UsuarioVO usr) throws SQLException;
+
+    public void actualizaPin(UsuarioVO usr) throws SQLException;
 }

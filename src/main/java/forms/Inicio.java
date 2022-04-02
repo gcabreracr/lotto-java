@@ -8,6 +8,7 @@ package forms;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import modelo.Variables;
+import static modelo.Variables.frmCambiaPin;
 import static modelo.Variables.frmConEstado;
 import static modelo.Variables.frmConPremios;
 import static modelo.Variables.frmConTkt;
@@ -216,6 +217,11 @@ public class Inicio extends javax.swing.JFrame {
         mSistema.add(mSis_cambioUsu);
 
         mSis_cambioPin.setText("Cambio Pin");
+        mSis_cambioPin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mSis_cambioPinActionPerformed(evt);
+            }
+        });
         mSistema.add(mSis_cambioPin);
 
         mSis_config.setText("Configuración");
@@ -354,6 +360,23 @@ public class Inicio extends javax.swing.JFrame {
             frmConTkt.restoreSubcomponentFocus();
         }
     }//GEN-LAST:event_mSis_configActionPerformed
+
+    private void mSis_cambioPinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSis_cambioPinActionPerformed
+        // TODO add your handling code here:
+         if (frmCambiaPin == null) {
+            frmCambiaPin = new CambiarPin();
+            Dimension ds = this.panelEscritorio.getSize();
+            Dimension fs = frmCambiaPin.getSize();
+            frmCambiaPin.setLocation((ds.width - fs.width) / 2, (ds.height - fs.height) / 2);
+            this.panelEscritorio.add(frmCambiaPin);
+            frmCambiaPin.show();
+        } else {
+            frmCambiaPin.toFront();
+            frmCambiaPin.restoreSubcomponentFocus();
+        }
+        
+        
+    }//GEN-LAST:event_mSis_cambioPinActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -34,7 +34,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    usr.setPin_pass(rs.getInt("pin_pass"));
+                    usr.setPin_pass(rs.getString("pin_pass"));
                     usr.setCod_usuario(rs.getInt("cod_usuario"));
                     usr.setNom_usuario(rs.getString("nom_usuario"));
                     usr.setTipo_usuario(rs.getInt("tipo_usuario"));
@@ -70,6 +70,22 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
         }
 
+    }
+    
+    @Override
+    public void actualizaPin(UsuarioVO usr) throws SQLException {
+
+        String sql = "UPDATE usuarios SET pin_pass=?"
+                + " WHERE cod_usuario=?";
+
+        try (Connection conn = PoolConexion.getDataSource().getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setString(1, usr.getPin_pass());
+            ps.setInt(2, usr.getCod_usuario());
+            ps.execute();
+
+        } 
     }
 
 }

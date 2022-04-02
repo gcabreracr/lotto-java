@@ -254,7 +254,7 @@ public class Login extends javax.swing.JDialog {
         String passUsuario = new String(txtPassUsu.getPassword());
 
         usr.setId_usuario(txtIdUsu.getText());
-        usr.setPin_pass(Integer.valueOf(passUsuario));
+        usr.setPin_pass(passUsuario);
 
         try {
             if (usuarioDAO.Login(usr)) {
@@ -266,7 +266,7 @@ public class Login extends javax.swing.JDialog {
                 }
                 String pin = new String(txtPassUsu.getPassword());
                 
-                if(usr.getPin_pass()!= Integer.valueOf(pin)){
+                if(!usr.getPin_pass().equals(pin)){
                     JOptionPane.showMessageDialog(this, "PIN invalido");
                     this.txtPassUsu.requestFocus();
                     setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
