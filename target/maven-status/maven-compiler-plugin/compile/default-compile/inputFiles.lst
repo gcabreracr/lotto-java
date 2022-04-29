@@ -5,6 +5,7 @@ D:\MavenProjects\LottoBanca\src\main\java\forms\ConsultaEstado.java
 D:\MavenProjects\LottoBanca\src\main\java\modelo\tableModel\ConsultaPremiosTM.java
 D:\MavenProjects\LottoBanca\src\main\java\forms\ConsultaPremios.java
 D:\MavenProjects\LottoBanca\src\main\java\metodos\PoolConexion.java
+D:\MavenProjects\LottoBanca\src\main\java\forms\CambiarPin.java
 D:\MavenProjects\LottoBanca\src\main\java\modelo\tableModel\VentaTktTM.java
 D:\MavenProjects\LottoBanca\src\main\java\metodos\Propiedades.java
 D:\MavenProjects\LottoBanca\src\main\java\modelo\Variables.java
@@ -15,6 +16,7 @@ D:\MavenProjects\LottoBanca\src\main\java\modelo\DAO\SorteoDAOImpl.java
 D:\MavenProjects\LottoBanca\src\main\java\modelo\PO\VentaDiariaTktVO.java
 D:\MavenProjects\LottoBanca\src\main\java\modelo\PO\SorteoVO.java
 D:\MavenProjects\LottoBanca\src\main\java\modelo\tableModel\TktsEmitidosTM.java
+D:\MavenProjects\LottoBanca\src\main\java\metodos\Validar.java
 D:\MavenProjects\LottoBanca\src\main\java\forms\VentaTkts.java
 D:\MavenProjects\LottoBanca\src\main\java\forms\TktsEmitidos.java
 D:\MavenProjects\LottoBanca\src\main\java\metodos\HttpClient.java
