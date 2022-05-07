@@ -25,6 +25,8 @@ public class SorteoVO {
     private int ven_dom;
     private String hora_sorteo;
     private String hora_cierre;
+    private int num_digitos;
+    private boolean reventado;
 
     public SorteoVO() {
     }
@@ -144,6 +146,22 @@ public class SorteoVO {
     @Override
     public String toString() {
         return nom_sorteo;
+    }
+
+    public int getNum_digitos() {
+        return num_digitos;
+    }
+
+    public void setNum_digitos(int num_digitos) {
+        this.num_digitos = num_digitos;
+    }
+
+    public boolean isReventado() {
+        return reventado;
+    }
+
+    public void setReventado(boolean reventado) {
+        this.reventado = reventado;
     }
     
     

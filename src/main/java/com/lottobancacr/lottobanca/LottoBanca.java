@@ -8,6 +8,7 @@ package com.lottobancacr.lottobanca;
 import forms.Splash;
 import forms.Inicio;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -38,7 +39,7 @@ public class LottoBanca {
         Splash splash = new Splash();
         splash.setLocationRelativeTo(null);
         splash.setVisible(true);
-
+        /*
         Propiedades prop = new Propiedades();
 
         try {
@@ -61,6 +62,11 @@ public class LottoBanca {
         } finally {
             splash.dispose();
         }
+         */
+
+        sleep(4000);
+        
+        splash.setVisible(false);
 
         new Inicio();
     }

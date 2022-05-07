@@ -23,8 +23,7 @@ import modelo.Variables;
  */
 public class Propiedades extends Properties {
 
-    File archivo;
-    //Properties prop;
+    File archivo;   
 
     public Propiedades() {
         this.archivo = new File("config.properties");

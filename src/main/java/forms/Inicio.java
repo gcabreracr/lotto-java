@@ -12,7 +12,8 @@ import static modelo.Variables.frmCambiaPin;
 import static modelo.Variables.frmConEstado;
 import static modelo.Variables.frmConPremios;
 import static modelo.Variables.frmConTkt;
-import static modelo.Variables.frmLiqDia;
+import static modelo.Variables.frmLiqDiaListas;
+import static modelo.Variables.frmLiqDiaPeriodo;
 import static modelo.Variables.frmTktsEmi;
 import static modelo.Variables.frmVtaTkts;
 
@@ -63,14 +64,22 @@ public class Inicio extends javax.swing.JFrame {
         mMan_Sucursales = new javax.swing.JMenuItem();
         mMan_Usuarios = new javax.swing.JMenuItem();
         mAdm_CierreSor = new javax.swing.JMenuItem();
+        mAjustes = new javax.swing.JMenu();
+        mAju_bloqueo_sor = new javax.swing.JMenuItem();
+        mAju_limite_venta = new javax.swing.JMenuItem();
+        mAju_elimina_ventas = new javax.swing.JMenuItem();
         mMovimientos = new javax.swing.JMenu();
         mMov_Suc = new javax.swing.JMenuItem();
         mMov_Usu = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mAdm_reportes = new javax.swing.JMenu();
         mVentas = new javax.swing.JMenu();
         mVenta_tkts = new javax.swing.JMenuItem();
         mVentas_tktsEmitidos = new javax.swing.JMenuItem();
-        mVentas_liqDia = new javax.swing.JMenuItem();
+        mLiqDiaria = new javax.swing.JMenu();
+        mLiqDia_Listas = new javax.swing.JMenuItem();
+        mLiqDia_ResSorteo = new javax.swing.JMenuItem();
+        mLiqDia_ResPeriodo = new javax.swing.JMenuItem();
         mVentas_tktsPremiados = new javax.swing.JMenuItem();
         mVentas_EstadoCta = new javax.swing.JMenuItem();
         mSistema = new javax.swing.JMenu();
@@ -100,7 +109,7 @@ public class Inicio extends javax.swing.JFrame {
         panelPrincipal.setLayout(panelPrincipalLayout);
         panelPrincipalLayout.setHorizontalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(barraInferior, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+            .addComponent(barraInferior, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -142,6 +151,19 @@ public class Inicio extends javax.swing.JFrame {
         mAdm_CierreSor.setText("Cierre Sorteos");
         mAdministrador.add(mAdm_CierreSor);
 
+        mAjustes.setText("Restricciones y ajustes");
+
+        mAju_bloqueo_sor.setText("Bloqueo de Sorteos");
+        mAjustes.add(mAju_bloqueo_sor);
+
+        mAju_limite_venta.setText("Limite Venta Vendedores");
+        mAjustes.add(mAju_limite_venta);
+
+        mAju_elimina_ventas.setText("Elimina Venta Sorteos");
+        mAjustes.add(mAju_elimina_ventas);
+
+        mAdministrador.add(mAjustes);
+
         mMovimientos.setText("Movimientos");
 
         mMov_Suc.setText("Sucursales");
@@ -151,6 +173,7 @@ public class Inicio extends javax.swing.JFrame {
         mMovimientos.add(mMov_Usu);
 
         mAdministrador.add(mMovimientos);
+        mAdministrador.add(jSeparator1);
 
         mAdm_reportes.setText("Reportes y Consultas");
         mAdministrador.add(mAdm_reportes);
@@ -175,13 +198,28 @@ public class Inicio extends javax.swing.JFrame {
         });
         mVentas.add(mVentas_tktsEmitidos);
 
-        mVentas_liqDia.setText("Liquidacion Diaria");
-        mVentas_liqDia.addActionListener(new java.awt.event.ActionListener() {
+        mLiqDiaria.setText("Liquidación diaria");
+
+        mLiqDia_Listas.setText("Lista números");
+        mLiqDia_Listas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mVentas_liqDiaActionPerformed(evt);
+                mLiqDia_ListasActionPerformed(evt);
             }
         });
-        mVentas.add(mVentas_liqDia);
+        mLiqDiaria.add(mLiqDia_Listas);
+
+        mLiqDia_ResSorteo.setText("Resumen x sorteo");
+        mLiqDiaria.add(mLiqDia_ResSorteo);
+
+        mLiqDia_ResPeriodo.setText("Resumen x periodo");
+        mLiqDia_ResPeriodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mLiqDia_ResPeriodoActionPerformed(evt);
+            }
+        });
+        mLiqDiaria.add(mLiqDia_ResPeriodo);
+
+        mVentas.add(mLiqDiaria);
 
         mVentas_tktsPremiados.setText("Tiquetes Premiados");
         mVentas_tktsPremiados.addActionListener(new java.awt.event.ActionListener() {
@@ -297,22 +335,6 @@ public class Inicio extends javax.swing.JFrame {
 
     }//GEN-LAST:event_mVentas_tktsEmitidosActionPerformed
 
-    private void mVentas_liqDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVentas_liqDiaActionPerformed
-        // TODO add your handling code here:
-        if (frmLiqDia == null) {
-            frmLiqDia = new LiqDiaria();
-            Dimension ds = this.panelEscritorio.getSize();
-            Dimension fs = frmLiqDia.getSize();
-            frmLiqDia.setLocation((ds.width - fs.width) / 2, (ds.height - fs.height) / 2);
-            this.panelEscritorio.add(frmLiqDia);
-            frmLiqDia.show();
-        } else {
-            frmLiqDia.toFront();
-            frmLiqDia.restoreSubcomponentFocus();
-        }
-
-    }//GEN-LAST:event_mVentas_liqDiaActionPerformed
-
     private void mVentas_tktsPremiadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVentas_tktsPremiadosActionPerformed
         // TODO add your handling code here:
         if (frmConPremios == null) {
@@ -363,7 +385,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void mSis_cambioPinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSis_cambioPinActionPerformed
         // TODO add your handling code here:
-         if (frmCambiaPin == null) {
+        if (frmCambiaPin == null) {
             frmCambiaPin = new CambiarPin();
             Dimension ds = this.panelEscritorio.getSize();
             Dimension fs = frmCambiaPin.getSize();
@@ -374,17 +396,56 @@ public class Inicio extends javax.swing.JFrame {
             frmCambiaPin.toFront();
             frmCambiaPin.restoreSubcomponentFocus();
         }
-        
-        
     }//GEN-LAST:event_mSis_cambioPinActionPerformed
+
+    private void mLiqDia_ListasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mLiqDia_ListasActionPerformed
+        // TODO add your handling code here:
+        if (frmLiqDiaListas == null) {
+            frmLiqDiaListas = new LiqDiaListas();
+            Dimension ds = this.panelEscritorio.getSize();
+            Dimension fs = frmLiqDiaListas.getSize();
+            frmLiqDiaListas.setLocation((ds.width - fs.width) / 2, (ds.height - fs.height) / 2);
+            this.panelEscritorio.add(frmLiqDiaListas);
+            frmLiqDiaListas.show();
+        } else {
+            frmLiqDiaListas.toFront();
+            frmLiqDiaListas.restoreSubcomponentFocus();
+        }
+
+    }//GEN-LAST:event_mLiqDia_ListasActionPerformed
+
+    private void mLiqDia_ResPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mLiqDia_ResPeriodoActionPerformed
+        // TODO add your handling code here:
+          if (frmLiqDiaPeriodo == null) {
+            frmLiqDiaPeriodo = new LiqDiaPeriodo();
+            Dimension ds = this.panelEscritorio.getSize();
+            Dimension fs = frmLiqDiaPeriodo.getSize();
+            frmLiqDiaPeriodo.setLocation((ds.width - fs.width) / 2, (ds.height - fs.height) / 2);
+            this.panelEscritorio.add(frmLiqDiaPeriodo);
+            frmLiqDiaPeriodo.show();
+        } else {
+            frmLiqDiaPeriodo.toFront();
+            frmLiqDiaPeriodo.restoreSubcomponentFocus();
+        }
+        
+    }//GEN-LAST:event_mLiqDia_ResPeriodoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JMenuBar MenuPrincipal;
     private javax.swing.JLabel barraInferior;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     public static javax.swing.JMenuItem mAdm_CierreSor;
     public static javax.swing.JMenu mAdm_reportes;
     public static javax.swing.JMenu mAdministrador;
+    private javax.swing.JMenuItem mAju_bloqueo_sor;
+    private javax.swing.JMenuItem mAju_elimina_ventas;
+    private javax.swing.JMenuItem mAju_limite_venta;
+    private javax.swing.JMenu mAjustes;
+    private javax.swing.JMenuItem mLiqDia_Listas;
+    private javax.swing.JMenuItem mLiqDia_ResPeriodo;
+    private javax.swing.JMenuItem mLiqDia_ResSorteo;
+    private javax.swing.JMenu mLiqDiaria;
     public static javax.swing.JMenuItem mMan_Sorteos;
     public static javax.swing.JMenuItem mMan_Sucursales;
     public static javax.swing.JMenuItem mMan_Usuarios;
@@ -399,7 +460,6 @@ public class Inicio extends javax.swing.JFrame {
     public static javax.swing.JMenuItem mVenta_tkts;
     public static javax.swing.JMenu mVentas;
     private javax.swing.JMenuItem mVentas_EstadoCta;
-    public static javax.swing.JMenuItem mVentas_liqDia;
     public static javax.swing.JMenuItem mVentas_tktsEmitidos;
     private javax.swing.JMenuItem mVentas_tktsPremiados;
     private javax.swing.JDesktopPane panelEscritorio;

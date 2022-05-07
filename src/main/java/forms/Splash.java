@@ -5,10 +5,9 @@ public class Splash extends javax.swing.JDialog {
     public Splash() {
         initComponents();
 
-        lblMensaje.setText("Conectando con la base de datos...");
+        lblMensaje.setText("Inicializando servicios...");
 
        
-
     }
 
    

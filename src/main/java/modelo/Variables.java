@@ -4,7 +4,8 @@ import forms.CambiarPin;
 import forms.ConfiguraTkt;
 import forms.ConsultaEstado;
 import forms.ConsultaPremios;
-import forms.LiqDiaria;
+import forms.LiqDiaListas;
+import forms.LiqDiaPeriodo;
 import forms.Login;
 import forms.TktsEmitidos;
 import forms.VentaTkts;
@@ -33,11 +34,13 @@ public class Variables {
     // Control singleton de apertura de ventanas
     public static Login frmLogin = null;
     public static VentaTkts frmVtaTkts = null;
-    public static LiqDiaria frmLiqDia = null;
+    public static LiqDiaListas frmLiqDiaListas = null;
+    //public static LiqDiaListas frmLiqDiaSorteos = null;
+    public static LiqDiaPeriodo frmLiqDiaPeriodo = null;
     public static TktsEmitidos frmTktsEmi = null;
     public static ConsultaEstado frmConEstado = null;
     public static ConsultaPremios frmConPremios = null;
     public static ConfiguraTkt frmConTkt = null;
     public static CambiarPin frmCambiaPin = null;
-    
+
 }

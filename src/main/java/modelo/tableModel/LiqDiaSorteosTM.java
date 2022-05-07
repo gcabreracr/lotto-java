@@ -8,28 +8,28 @@ package modelo.tableModel;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
-import modelo.PO.PremiosVO;
+import modelo.PO.ItemLiqDiaPeriodoVO;
+import modelo.PO.ItemLiqDiaSorteosVO;
 
 /**
  *
  * @author Usuario
  */
-public class ConsultaPremiosTM extends AbstractTableModel {
+public class LiqDiaSorteosTM extends AbstractTableModel {
 
     DecimalFormat fMonto = new DecimalFormat("###,###,###");
-    DecimalFormat fTkt = new DecimalFormat("000000");
 
-    private ArrayList<PremiosVO> listaPremios;
-    private final String[] nombreColumnas = {"# Tkt", "Apuesta", "Premio", "Referencia"};
+    private ArrayList<ItemLiqDiaSorteosVO> datos;
+    private final String[] nombreColumnas = {"Sorteo", "Venta", "Comisión", "Premio", "Liq. Neta"};
 
-    public ConsultaPremiosTM() {
+    public LiqDiaSorteosTM() {
 
-        listaPremios = new ArrayList();
+        datos = new ArrayList();
     }
 
     @Override
     public int getRowCount() {
-        return listaPremios.size();
+        return datos.size();
     }
 
     @Override
@@ -49,17 +49,20 @@ public class ConsultaPremiosTM extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int i, int i1) {
-        PremiosVO registro = listaPremios.get(i);
+        ItemLiqDiaSorteosVO registro = datos.get(i);
+        int liqNeta = registro.getMon_venta()-registro.getMon_comision()-registro.getMon_premios();
 
         switch (i1) {
             case 0:
-                return fTkt.format(registro.getNum_tkt());
+                return registro.getNom_sorteo();
             case 1:
-                return fMonto.format(registro.getMon_jugado());
+                return fMonto.format(registro.getMon_venta());
             case 2:
-                return fMonto.format(registro.getMon_premio());
+                return fMonto.format(registro.getMon_comision());
             case 3:
-                return registro.getReferencia();
+                return fMonto.format(registro.getMon_premios());
+            case 4:
+                return fMonto.format(liqNeta);
 
             default:
                 return null;
@@ -67,8 +70,8 @@ public class ConsultaPremiosTM extends AbstractTableModel {
 
     }
 
-    public void llenaLista(ArrayList<PremiosVO> nuevaLista) {
-        listaPremios = nuevaLista;
+    public void llenaLista(ArrayList<ItemLiqDiaSorteosVO> nuevaLista) {
+        datos = nuevaLista;
         fireTableDataChanged();
     }
 

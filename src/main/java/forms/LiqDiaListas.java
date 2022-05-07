@@ -34,7 +34,7 @@ import org.json.JSONObject;
  *
  * @author Gonzalo Cabrera
  */
-public class LiqDiaria extends javax.swing.JInternalFrame {
+public class LiqDiaListas extends javax.swing.JInternalFrame {
 
     VentaTktTM modeloTabla;
     SorteoDAO sorteoDAO;
@@ -56,7 +56,7 @@ public class LiqDiaria extends javax.swing.JInternalFrame {
     int mMontoLiq = 0;
     int mVentaTotal = 0;
 
-    public LiqDiaria() {
+    public LiqDiaListas() {
         initComponents();
 
         sorteoDAO = new SorteoDAOImpl();
@@ -346,7 +346,7 @@ public class LiqDiaria extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         // TODO add your handling code here:
-        Variables.frmLiqDia = null;
+        Variables.frmLiqDiaListas = null;
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void txtFechaLiqMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFechaLiqMouseClicked
@@ -460,7 +460,7 @@ public class LiqDiaria extends javax.swing.JInternalFrame {
             
             JOptionPane.showMessageDialog(null, "NO existe ventas registradas para este sorteo");
             
-            Logger.getLogger(LiqDiaria.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LiqDiaListas.class.getName()).log(Level.SEVERE, null, ex);
         }
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 

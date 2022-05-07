@@ -57,6 +57,28 @@
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
               </AuxValues>
             </MenuItem>
+            <Menu class="javax.swing.JMenu" name="mAjustes">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Restricciones y ajustes"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="mAju_bloqueo_sor">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Bloqueo de Sorteos"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mAju_limite_venta">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Limite Venta Vendedores"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mAju_elimina_ventas">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Elimina Venta Sorteos"/>
+                  </Properties>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
             <Menu class="javax.swing.JMenu" name="mMovimientos">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Movimientos"/>
@@ -83,6 +105,8 @@
                 </MenuItem>
               </SubComponents>
             </Menu>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
+            </MenuItem>
             <Menu class="javax.swing.JMenu" name="mAdm_reportes">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Reportes y Consultas"/>
@@ -123,17 +147,34 @@
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
               </AuxValues>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mVentas_liqDia">
+            <Menu class="javax.swing.JMenu" name="mLiqDiaria">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Liquidacion Diaria"/>
+                <Property name="text" type="java.lang.String" value="Liquidaci&#xf3;n diaria"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mVentas_liqDiaActionPerformed"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
-              </AuxValues>
-            </MenuItem>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="mLiqDia_Listas">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Lista n&#xfa;meros"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mLiqDia_ListasActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mLiqDia_ResSorteo">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Resumen x sorteo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mLiqDia_ResPeriodo">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Resumen x periodo"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mLiqDia_ResPeriodoActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
             <MenuItem class="javax.swing.JMenuItem" name="mVentas_tktsPremiados">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tiquetes Premiados"/>
@@ -247,7 +288,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="barraInferior" alignment="0" pref="518" max="32767" attributes="0"/>
+                  <Component id="barraInferior" alignment="0" pref="400" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">

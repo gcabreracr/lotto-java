@@ -24,7 +24,8 @@ public class PoolConexion {
     private final String DB_USER = "gcabrera";
     private final String DB_PASS = "Gca$2323";
     private final String URL = IP_DB + DB_NAME + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-    //private final String URL = IP_DB + DB_NAME;
+  
+    
     private PoolConexion() {
         bds = new BasicDataSource();
         bds.setDriverClassName("com.mysql.cj.jdbc.Driver");
