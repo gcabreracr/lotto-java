@@ -22,7 +22,7 @@ import modelo.Variables;
 
 /**
  *
- * @author Administrador
+ * @author Gonzalo Cabrera
  */
 public class LottoBanca {
 
@@ -39,7 +39,8 @@ public class LottoBanca {
         Splash splash = new Splash();
         splash.setLocationRelativeTo(null);
         splash.setVisible(true);
-        /*
+        
+        
         Propiedades prop = new Propiedades();
 
         try {
@@ -47,7 +48,7 @@ public class LottoBanca {
             splash.lblMensaje.setText("Conectando con base de datos - IP: " + Variables.IP_DB + " - URL: " + Variables.URL_SERVER);
 
            try {
-                Connection con = PoolConexion.getDataSource().getConnection();
+                Connection con = PoolConexion.getInstance().getConnection();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(splash, "Error de coneccion" + ex.toString());
                 Logger.getLogger(LottoBanca.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,10 +63,7 @@ public class LottoBanca {
         } finally {
             splash.dispose();
         }
-         */
-
-        sleep(4000);
-        
+       
         splash.setVisible(false);
 
         new Inicio();

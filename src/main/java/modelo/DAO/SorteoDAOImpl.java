@@ -33,7 +33,7 @@ public class SorteoDAOImpl implements SorteoDAO {
                 + " WHERE cod_usuario=?"
                 + " ORDER BY nom_sorteo";
 
-        try (Connection conn = PoolConexion.getDataSource().getConnection(); // This should return a NEW connection!
+        try (Connection conn = PoolConexion.getInstance().getConnection(); // This should return a NEW connection!
                 PreparedStatement ps = conn.prepareStatement(sql);) {
 
             ps.setInt(1, codUsuario);

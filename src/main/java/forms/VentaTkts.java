@@ -134,8 +134,8 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         btnEliminar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        txtMonApuestaRev = new javax.swing.JTextField();
+        lblReventado = new javax.swing.JLabel();
+        txtMonReventado = new javax.swing.JTextField();
         panelTabla = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtNumVendidos = new javax.swing.JTable();
@@ -282,18 +282,18 @@ public class VentaTkts extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel8.setText("Reventado");
+        lblReventado.setText("Reventado");
 
-        txtMonApuestaRev.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtMonApuestaRev.setText("0");
-        txtMonApuestaRev.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtMonReventado.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtMonReventado.setText("0");
+        txtMonReventado.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                txtMonApuestaRevFocusGained(evt);
+                txtMonReventadoFocusGained(evt);
             }
         });
-        txtMonApuestaRev.addActionListener(new java.awt.event.ActionListener() {
+        txtMonReventado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMonApuestaRevActionPerformed(evt);
+                txtMonReventadoActionPerformed(evt);
             }
         });
 
@@ -302,9 +302,9 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -313,8 +313,7 @@ public class VentaTkts extends javax.swing.JInternalFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblReventado, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtFechaTkt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -323,7 +322,7 @@ public class VentaTkts extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtMonApuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtMonApuestaRev, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMonReventado, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -355,17 +354,15 @@ public class VentaTkts extends javax.swing.JInternalFrame {
                             .addComponent(txtMonApuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(5, 5, 5)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(txtMonApuestaRev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblReventado)
+                            .addComponent(txtMonReventado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnGT)
-                            .addComponent(jLabel6))
-                        .addContainerGap(22, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jLabel6)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         panelTabla.setBorder(javax.swing.BorderFactory.createTitledBorder("Numeros vendidos"));
@@ -667,15 +664,15 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnImprimirActionPerformed
 
-    private void txtMonApuestaRevFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMonApuestaRevFocusGained
+    private void txtMonReventadoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMonReventadoFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtMonApuestaRevFocusGained
+    }//GEN-LAST:event_txtMonReventadoFocusGained
 
-    private void txtMonApuestaRevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMonApuestaRevActionPerformed
+    private void txtMonReventadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMonReventadoActionPerformed
         // TODO add your handling code here:
         
         
-    }//GEN-LAST:event_txtMonApuestaRevActionPerformed
+    }//GEN-LAST:event_txtMonReventadoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -693,18 +690,18 @@ public class VentaTkts extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtNumVendidos;
     private javax.swing.JLabel lbVentaTotal;
+    private javax.swing.JLabel lblReventado;
     private javax.swing.JPanel panelBotones;
     private javax.swing.JPanel panelCentral;
     private javax.swing.JPanel panelTabla;
     private com.toedter.calendar.JDateChooser txtFechaTkt;
     private javax.swing.JTextField txtMonApuesta;
-    private javax.swing.JTextField txtMonApuestaRev;
+    private javax.swing.JTextField txtMonReventado;
     private javax.swing.JTextField txtNumero;
     private javax.swing.JTextField txtReferencia;
     // End of variables declaration//GEN-END:variables
@@ -720,6 +717,7 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         txtFechaTkt.setEnabled(false);
         txtReferencia.setEnabled(false);
         txtMonApuesta.setEnabled(false);
+        txtMonReventado.setEnabled(false);
         txtNumero.setEnabled(false);
         jtNumVendidos.setEnabled(false);
 
@@ -732,7 +730,8 @@ public class VentaTkts extends javax.swing.JInternalFrame {
         nuevoTkt = true;
         btnImprimir.setText("Imprimir");
         txtFechaTkt.setDate(new Date());
-        txtMonApuesta.setText("");
+        txtMonApuesta.setText("0");
+        txtMonReventado.setText("0");
         txtNumero.setText("");
         txtReferencia.setText("");
         lbVentaTotal.setText("0");
@@ -794,6 +793,15 @@ public class VentaTkts extends javax.swing.JInternalFrame {
                 }
             }
             txtMonApuesta.setEnabled(true);
+            if(mReventado){
+                lblReventado.setVisible(true);
+                txtMonReventado.setVisible(true);
+                txtMonReventado.setEnabled(true);
+                
+            }else{
+                lblReventado.setVisible(false);
+                txtMonReventado.setVisible(false);
+            }
             txtNumero.setEnabled(true);
             btnGT.setEnabled(true);
             jtNumVendidos.setEnabled(true);

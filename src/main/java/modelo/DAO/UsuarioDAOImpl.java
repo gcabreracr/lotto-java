@@ -27,7 +27,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                 + " INNER JOIN sucursales AS a ON u.cod_suc=a.cod_suc"
                 + " WHERE u.id_usuario=?";
 
-        try (Connection conn = PoolConexion.getDataSource().getConnection(); // This should return a NEW connection!
+        try (Connection conn = PoolConexion.getInstance().getConnection(); // This should return a NEW connection!
                 PreparedStatement ps = conn.prepareStatement(sql);) {
 
             ps.setString(1, usr.getId_usuario());
@@ -59,7 +59,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
         String sql = "UPDATE usuarios SET tit_tkt=?, msg_tkt=?, nom_imp=? WHERE cod_usuario=? ";
 
-        try (Connection conn = PoolConexion.getDataSource().getConnection();
+        try (Connection conn = PoolConexion.getInstance().getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql);) {
 
             ps.setString(1, usr.getTit_tkt());
@@ -78,7 +78,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         String sql = "UPDATE usuarios SET pin_pass=?"
                 + " WHERE cod_usuario=?";
 
-        try (Connection conn = PoolConexion.getDataSource().getConnection();
+        try (Connection conn = PoolConexion.getInstance().getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql);) {
 
             ps.setString(1, usr.getPin_pass());
