@@ -54,6 +54,7 @@ public class Inicio extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
         panelEscritorio = new javax.swing.JDesktopPane();
         panelPrincipal = new javax.swing.JPanel();
         barraInferior = new javax.swing.JLabel();
@@ -66,13 +67,15 @@ public class Inicio extends javax.swing.JFrame {
         mAdm_CierreSor = new javax.swing.JMenuItem();
         mAjustes = new javax.swing.JMenu();
         mAju_bloqueo_sor = new javax.swing.JMenuItem();
-        mAju_limite_venta = new javax.swing.JMenuItem();
+        mAju_lim_venta_suc = new javax.swing.JMenuItem();
+        mAju_lim_venta_usu = new javax.swing.JMenuItem();
         mAju_elimina_ventas = new javax.swing.JMenuItem();
         mMovimientos = new javax.swing.JMenu();
         mMov_Suc = new javax.swing.JMenuItem();
         mMov_Usu = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mAdm_reportes = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         mVentas = new javax.swing.JMenu();
         mVenta_tkts = new javax.swing.JMenuItem();
         mVentas_tktsEmitidos = new javax.swing.JMenuItem();
@@ -86,6 +89,8 @@ public class Inicio extends javax.swing.JFrame {
         mSis_cambioUsu = new javax.swing.JMenuItem();
         mSis_cambioPin = new javax.swing.JMenuItem();
         mSis_config = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Lotto Banca");
@@ -156,8 +161,16 @@ public class Inicio extends javax.swing.JFrame {
         mAju_bloqueo_sor.setText("Bloqueo de Sorteos");
         mAjustes.add(mAju_bloqueo_sor);
 
-        mAju_limite_venta.setText("Limite Venta Vendedores");
-        mAjustes.add(mAju_limite_venta);
+        mAju_lim_venta_suc.setText("Limite Venta x Numero");
+        mAju_lim_venta_suc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mAju_lim_venta_sucActionPerformed(evt);
+            }
+        });
+        mAjustes.add(mAju_lim_venta_suc);
+
+        mAju_lim_venta_usu.setText("Limite Venta Vendedores");
+        mAjustes.add(mAju_lim_venta_usu);
 
         mAju_elimina_ventas.setText("Elimina Venta Sorteos");
         mAjustes.add(mAju_elimina_ventas);
@@ -176,6 +189,10 @@ public class Inicio extends javax.swing.JFrame {
         mAdministrador.add(jSeparator1);
 
         mAdm_reportes.setText("Reportes y Consultas");
+
+        jMenuItem2.setText("Liquidación Diaria Sucursales");
+        mAdm_reportes.add(jMenuItem2);
+
         mAdministrador.add(mAdm_reportes);
 
         MenuPrincipal.add(mAdministrador);
@@ -430,17 +447,24 @@ public class Inicio extends javax.swing.JFrame {
         
     }//GEN-LAST:event_mLiqDia_ResPeriodoActionPerformed
 
+    private void mAju_lim_venta_sucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mAju_lim_venta_sucActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mAju_lim_venta_sucActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JMenuBar MenuPrincipal;
     private javax.swing.JLabel barraInferior;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     public static javax.swing.JMenuItem mAdm_CierreSor;
     public static javax.swing.JMenu mAdm_reportes;
     public static javax.swing.JMenu mAdministrador;
     private javax.swing.JMenuItem mAju_bloqueo_sor;
     private javax.swing.JMenuItem mAju_elimina_ventas;
-    private javax.swing.JMenuItem mAju_limite_venta;
+    private javax.swing.JMenuItem mAju_lim_venta_suc;
+    private javax.swing.JMenuItem mAju_lim_venta_usu;
     private javax.swing.JMenu mAjustes;
     private javax.swing.JMenuItem mLiqDia_Listas;
     private javax.swing.JMenuItem mLiqDia_ResPeriodo;

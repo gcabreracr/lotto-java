@@ -126,6 +126,7 @@ public class LiqDiaPeriodo extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("Consulta Liquidaciones Diarias por Periodo");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lucky48.jpg"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }

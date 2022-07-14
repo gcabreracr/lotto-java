@@ -149,7 +149,7 @@ public class VentaTkts extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("Venta de tiquetes");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lucky48.png"))); // NOI18N
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lucky48.jpg"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }

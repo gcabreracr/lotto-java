@@ -25,11 +25,11 @@ public class SorteoDAOImpl implements SorteoDAO {
         Vector<SorteoUsuVO> lista = new Vector<>();
         SorteoUsuVO sorteo = new SorteoUsuVO();
         sorteo.setCod_sorteo(0);
-        sorteo.setNom_sorteo("Sellecione un sorteo");
+        sorteo.setNom_sorteo("Seleccione un sorteo");
         lista.add(sorteo);
 
         String sql = "SELECT su.cod_sorteo,nom_sorteo,reventado,num_digitos,su.fac_premio_usu,su.por_comision_usu FROM sorteos_usu AS su"
-                + " INNER JOIN sorteos AS s ON su.cod_sorteo=s.cod_sorteo"
+                + " INNER JOIN sorteos AS s ON su.cod_sorteo=s.cod_sorteo AND s.estado=1"
                 + " WHERE cod_usuario=?"
                 + " ORDER BY nom_sorteo";
 

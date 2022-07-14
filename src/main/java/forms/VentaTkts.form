@@ -5,7 +5,7 @@
     <Property name="closable" type="boolean" value="true"/>
     <Property name="title" type="java.lang.String" value="Venta de tiquetes"/>
     <Property name="frameIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-      <Image iconType="3" name="/img/lucky48.png"/>
+      <Image iconType="3" name="/img/lucky48.jpg"/>
     </Property>
   </Properties>
   <SyntheticProperties>
