@@ -59,7 +59,7 @@ public class Inicio extends javax.swing.JFrame {
         panelPrincipal = new javax.swing.JPanel();
         barraInferior = new javax.swing.JLabel();
         MenuPrincipal = new javax.swing.JMenuBar();
-        mAdministrador = new javax.swing.JMenu();
+        mnAdm = new javax.swing.JMenu();
         mMantenimiento = new javax.swing.JMenu();
         mMan_Sorteos = new javax.swing.JMenuItem();
         mMan_Sucursales = new javax.swing.JMenuItem();
@@ -76,7 +76,7 @@ public class Inicio extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mAdm_reportes = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
-        mVentas = new javax.swing.JMenu();
+        mnVta = new javax.swing.JMenu();
         mVenta_tkts = new javax.swing.JMenuItem();
         mVentas_tktsEmitidos = new javax.swing.JMenuItem();
         mLiqDiaria = new javax.swing.JMenu();
@@ -85,8 +85,8 @@ public class Inicio extends javax.swing.JFrame {
         mLiqDia_ResPeriodo = new javax.swing.JMenuItem();
         mVentas_tktsPremiados = new javax.swing.JMenuItem();
         mVentas_EstadoCta = new javax.swing.JMenuItem();
-        mSistema = new javax.swing.JMenu();
-        mSis_cambioUsu = new javax.swing.JMenuItem();
+        mnSis = new javax.swing.JMenu();
+        mnSis_cambioUsu = new javax.swing.JMenuItem();
         mSis_cambioPin = new javax.swing.JMenuItem();
         mSis_config = new javax.swing.JMenuItem();
 
@@ -114,12 +114,12 @@ public class Inicio extends javax.swing.JFrame {
         panelPrincipal.setLayout(panelPrincipalLayout);
         panelPrincipalLayout.setHorizontalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(barraInferior, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(barraInferior, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
         );
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
-                .addGap(0, 262, Short.MAX_VALUE)
+                .addGap(0, 327, Short.MAX_VALUE)
                 .addComponent(barraInferior))
         );
 
@@ -138,7 +138,7 @@ public class Inicio extends javax.swing.JFrame {
 
         getContentPane().add(panelEscritorio, java.awt.BorderLayout.CENTER);
 
-        mAdministrador.setText("Modulo Administrador");
+        mnAdm.setText("Modulo Administrador");
 
         mMantenimiento.setText("Mantenimiento");
 
@@ -151,10 +151,10 @@ public class Inicio extends javax.swing.JFrame {
         mMan_Usuarios.setText("Usuarios");
         mMantenimiento.add(mMan_Usuarios);
 
-        mAdministrador.add(mMantenimiento);
+        mnAdm.add(mMantenimiento);
 
         mAdm_CierreSor.setText("Cierre Sorteos");
-        mAdministrador.add(mAdm_CierreSor);
+        mnAdm.add(mAdm_CierreSor);
 
         mAjustes.setText("Restricciones y ajustes");
 
@@ -175,7 +175,7 @@ public class Inicio extends javax.swing.JFrame {
         mAju_elimina_ventas.setText("Elimina Venta Sorteos");
         mAjustes.add(mAju_elimina_ventas);
 
-        mAdministrador.add(mAjustes);
+        mnAdm.add(mAjustes);
 
         mMovimientos.setText("Movimientos");
 
@@ -185,19 +185,19 @@ public class Inicio extends javax.swing.JFrame {
         mMov_Usu.setText("Usuarios");
         mMovimientos.add(mMov_Usu);
 
-        mAdministrador.add(mMovimientos);
-        mAdministrador.add(jSeparator1);
+        mnAdm.add(mMovimientos);
+        mnAdm.add(jSeparator1);
 
         mAdm_reportes.setText("Reportes y Consultas");
 
         jMenuItem2.setText("Liquidación Diaria Sucursales");
         mAdm_reportes.add(jMenuItem2);
 
-        mAdministrador.add(mAdm_reportes);
+        mnAdm.add(mAdm_reportes);
 
-        MenuPrincipal.add(mAdministrador);
+        MenuPrincipal.add(mnAdm);
 
-        mVentas.setText("Modulo Ventas");
+        mnVta.setText("Modulo Ventas");
 
         mVenta_tkts.setText("Venta Tiquetes");
         mVenta_tkts.addActionListener(new java.awt.event.ActionListener() {
@@ -205,7 +205,7 @@ public class Inicio extends javax.swing.JFrame {
                 mVenta_tktsActionPerformed(evt);
             }
         });
-        mVentas.add(mVenta_tkts);
+        mnVta.add(mVenta_tkts);
 
         mVentas_tktsEmitidos.setText("Tiquetes Emitidos");
         mVentas_tktsEmitidos.addActionListener(new java.awt.event.ActionListener() {
@@ -213,7 +213,7 @@ public class Inicio extends javax.swing.JFrame {
                 mVentas_tktsEmitidosActionPerformed(evt);
             }
         });
-        mVentas.add(mVentas_tktsEmitidos);
+        mnVta.add(mVentas_tktsEmitidos);
 
         mLiqDiaria.setText("Liquidación diaria");
 
@@ -236,7 +236,7 @@ public class Inicio extends javax.swing.JFrame {
         });
         mLiqDiaria.add(mLiqDia_ResPeriodo);
 
-        mVentas.add(mLiqDiaria);
+        mnVta.add(mLiqDiaria);
 
         mVentas_tktsPremiados.setText("Tiquetes Premiados");
         mVentas_tktsPremiados.addActionListener(new java.awt.event.ActionListener() {
@@ -244,7 +244,7 @@ public class Inicio extends javax.swing.JFrame {
                 mVentas_tktsPremiadosActionPerformed(evt);
             }
         });
-        mVentas.add(mVentas_tktsPremiados);
+        mnVta.add(mVentas_tktsPremiados);
 
         mVentas_EstadoCta.setText("Estado Cuenta");
         mVentas_EstadoCta.addActionListener(new java.awt.event.ActionListener() {
@@ -252,24 +252,24 @@ public class Inicio extends javax.swing.JFrame {
                 mVentas_EstadoCtaActionPerformed(evt);
             }
         });
-        mVentas.add(mVentas_EstadoCta);
+        mnVta.add(mVentas_EstadoCta);
 
-        MenuPrincipal.add(mVentas);
+        MenuPrincipal.add(mnVta);
 
-        mSistema.setText("Sistema");
-        mSistema.addActionListener(new java.awt.event.ActionListener() {
+        mnSis.setText("Sistema");
+        mnSis.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mSistemaActionPerformed(evt);
+                mnSisActionPerformed(evt);
             }
         });
 
-        mSis_cambioUsu.setText("Cambio Usuario");
-        mSis_cambioUsu.addActionListener(new java.awt.event.ActionListener() {
+        mnSis_cambioUsu.setText("Cambio Usuario");
+        mnSis_cambioUsu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mSis_cambioUsuActionPerformed(evt);
+                mnSis_cambioUsuActionPerformed(evt);
             }
         });
-        mSistema.add(mSis_cambioUsu);
+        mnSis.add(mnSis_cambioUsu);
 
         mSis_cambioPin.setText("Cambio Pin");
         mSis_cambioPin.addActionListener(new java.awt.event.ActionListener() {
@@ -277,7 +277,7 @@ public class Inicio extends javax.swing.JFrame {
                 mSis_cambioPinActionPerformed(evt);
             }
         });
-        mSistema.add(mSis_cambioPin);
+        mnSis.add(mSis_cambioPin);
 
         mSis_config.setText("Configuración");
         mSis_config.addActionListener(new java.awt.event.ActionListener() {
@@ -285,9 +285,9 @@ public class Inicio extends javax.swing.JFrame {
                 mSis_configActionPerformed(evt);
             }
         });
-        mSistema.add(mSis_config);
+        mnSis.add(mSis_config);
 
-        MenuPrincipal.add(mSistema);
+        MenuPrincipal.add(mnSis);
 
         setJMenuBar(MenuPrincipal);
 
@@ -306,18 +306,18 @@ public class Inicio extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formKeyPressed
 
-    private void mSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSistemaActionPerformed
+    private void mnSisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnSisActionPerformed
         // TODO add your handling code here:
 
 
-    }//GEN-LAST:event_mSistemaActionPerformed
+    }//GEN-LAST:event_mnSisActionPerformed
 
-    private void mSis_cambioUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSis_cambioUsuActionPerformed
+    private void mnSis_cambioUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnSis_cambioUsuActionPerformed
         // TODO add your handling code here:
         frmLogin = new Login(this);
         frmLogin.setLocationRelativeTo(null);
         frmLogin.setVisible(true);
-    }//GEN-LAST:event_mSis_cambioUsuActionPerformed
+    }//GEN-LAST:event_mnSis_cambioUsuActionPerformed
 
     private void mVenta_tktsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVenta_tktsActionPerformed
         // TODO add your handling code here:
@@ -460,7 +460,6 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     public static javax.swing.JMenuItem mAdm_CierreSor;
     public static javax.swing.JMenu mAdm_reportes;
-    public static javax.swing.JMenu mAdministrador;
     private javax.swing.JMenuItem mAju_bloqueo_sor;
     private javax.swing.JMenuItem mAju_elimina_ventas;
     private javax.swing.JMenuItem mAju_lim_venta_suc;
@@ -478,14 +477,15 @@ public class Inicio extends javax.swing.JFrame {
     public static javax.swing.JMenuItem mMov_Usu;
     public static javax.swing.JMenu mMovimientos;
     private javax.swing.JMenuItem mSis_cambioPin;
-    private javax.swing.JMenuItem mSis_cambioUsu;
     private javax.swing.JMenuItem mSis_config;
-    public static javax.swing.JMenu mSistema;
     public static javax.swing.JMenuItem mVenta_tkts;
-    public static javax.swing.JMenu mVentas;
     private javax.swing.JMenuItem mVentas_EstadoCta;
     public static javax.swing.JMenuItem mVentas_tktsEmitidos;
     private javax.swing.JMenuItem mVentas_tktsPremiados;
+    public static javax.swing.JMenu mnAdm;
+    public static javax.swing.JMenu mnSis;
+    private javax.swing.JMenuItem mnSis_cambioUsu;
+    public static javax.swing.JMenu mnVta;
     private javax.swing.JDesktopPane panelEscritorio;
     private javax.swing.JPanel panelPrincipal;
     // End of variables declaration//GEN-END:variables
